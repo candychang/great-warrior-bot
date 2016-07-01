@@ -2,7 +2,7 @@ from behave import *
 
 @when(u'I visit the home page')
 def step_impl(context):
-    context.browser.visit('home')
+    context.browser.visit(context.get_url('home'))
 
 @then(u'I should see "Welcome"')
 def step_impl(context):
