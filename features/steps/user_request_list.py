@@ -17,7 +17,7 @@ def user_login(context, username):
 
 @when(u'I visit the "{view_name}" page')
 def visit(context, view_name):
-    context.browser.visit(view_name)
+    context.browser.visit(context.get_url(view_name))
 
 @then(u'I should see all my orders')
 def requests_exist(context):
