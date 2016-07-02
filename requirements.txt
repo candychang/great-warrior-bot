@@ -11,3 +11,4 @@ parse-type==0.3.4
 selenium==2.53.6
 six==1.5.2
 splinter==0.7.3
+psycopg2==2.6.1
