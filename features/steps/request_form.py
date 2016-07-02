@@ -1,19 +1,15 @@
 from behave import *
 
-# @given(u'I am a user')
-# def step_impl(context):
-    # raise NotImplementedError(u'STEP: Given I am a user')
-
 @when(u'I fill out this form')
 def step_impl(context):
-	context.browser.visit('request-form')
+	context.browser.visit(context.get_url('request-form'))
 	context.browser.fill('item','shoes')
-	context.browser.fill('URL' 'amazon.com')
+	context.browser.fill('URL', 'amazon.com')
 	context.browser.fill('size', '7')
-	context.browser.fill('color' 'blue')
+	context.browser.fill('color', 'blue')
 	context.browser.find_by_css('form input[type=submit]').first.click()
 	
-@then(u'I should get confirmation that my request has been sub')
+@then(u'I am redirected to confirmation page')
 def step_impl(context):
 	context.test.assertEqual(context.browser.url,context.get_url('request-confirm'))
 	

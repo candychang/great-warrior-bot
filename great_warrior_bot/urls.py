@@ -18,6 +18,7 @@ from django.contrib import admin
 from line_bot import views
 
 urlpatterns = [
-	url(r'^$', views.home_page, name='home')
+	url(r'^$', views.home_page, name='home'),
+	url(r'^request/new$', views.form_page, name='request-form'),
     # url(r'^admin/', include(admin.site.urls)),
 ]
