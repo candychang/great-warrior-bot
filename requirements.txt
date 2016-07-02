@@ -1,7 +1,6 @@
 Django==1.8.4
 Mako==0.9.1
 MarkupSafe==0.18
-apturl==0.5.2ubuntu4
 behave==1.2.5
 behave-django==0.3.0
 chardet==2.2.1
