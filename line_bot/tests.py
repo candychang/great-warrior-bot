@@ -1,6 +1,6 @@
 from django.test import TestCase
 from line_bot.views import *
-from line_bot.models import Form
+from line_bot.models import Request
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
@@ -30,47 +30,57 @@ class formTest(TestCase):
 	def test_form_POST_request(self):
 		request = HttpRequest()
 		request.method = 'POST'
-		request.POST = {"item": 'A new item',
-						"URL":  'A new url',
+		request.POST = {"itemrequest": 'A new item',
+						"url":  'A new url',
 						"size": 'Item size',
-						"color": 'Item color'}
+						"itemcolor": 'Item color'}
 
 		response = form_page(request)
 		content = response.content.decode()
 		print(repr(request.POST))
-
-		self.assertIn('A new item', content)
-		self.assertIn('A new url', content)
-		self.assertIn('Item size', content)
-		self.assertIn('Item color', content)
 		
+		self.assertEqual(Request.objects.count(), 1)
+		new_item = Request.objects.first()
+		self.assertEqual(new_item.itemrequest, 'A new item')
+		self.assertEqual(new_item.url, 'A new url')
+		self.assertEqual(new_item.size, 'Item size')
+		self.assertEqual(new_item.itemcolor, 'Item color')
+		
+		
+	def test_form_saving_items(self):
+		request = HttpRequest()
+		form_page(request)
+		self.assertEqual(Request.objects.count(), 0)
 class FormModelTest(TestCase):
 	def test_saving_and_retrieving_items(self):
-		first_item = Form()
-		first_item.text = 'First item'
+		first_item = Request()
+		first_item.itemrequest = 'First item'
+		first_item.url = 'First url'
+		first_item.size = 'First size'
+		first_item.itemcolor = 'First color'
 		first_item.save()
 		
-		second_item = Form()
-		second_item.text = 'Second item'
+		second_item = Request()
+		second_item.itemrequest = 'Second item'
+		second_item.url = 'Second url'
+		second_item.size = 'Second size'
+		second_item.itemcolor = 'Second color'
 		second_item.save()
 		
-		third_item = Form()
-		third_item.text = 'Third item'
-		third_item.save()
 		
-		fourth_item = Form()
-		fourth_item.text = 'Fourth item'
-		fourth_item.save()
-		
-		saved_items = Form.objects.all()
-		self.assertEqual(saved_items.count(), 4)
+		saved_items = Request.objects.all()
+		self.assertEqual(saved_items.count(), 2)
 		
 		first_saved_item = saved_items[0]
 		second_saved_item = saved_items[1]
-		third_saved_item = saved_items[2]
-		fourth_saved_item = saved_items[3]
-		self.assertEqual(first_saved_item.text,'First item')
-		self.assertEqual(second_saved_item.text,'Second item')
-		self.assertEqual(third_saved_item.text,'Third item')
-		self.assertEqual(fourth_saved_item.text,'Fourth item')
+		
+		self.assertEqual(first_saved_item.itemrequest,'First item')
+		self.assertEqual(first_saved_item.url,'First url')
+		self.assertEqual(first_saved_item.size,'First size')
+		self.assertEqual(first_saved_item.itemcolor,'First color')
+		
+		self.assertEqual(second_saved_item.itemrequest,'Second item')
+		self.assertEqual(second_saved_item.url,'Second url')
+		self.assertEqual(second_saved_item.size,'Second size')
+		self.assertEqual(second_saved_item.itemcolor,'Second color')
 		
