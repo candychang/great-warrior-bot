@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'settings',
+    'line_bot',
     'behave_django',
     'django.contrib.admin',
     'django.contrib.auth',
