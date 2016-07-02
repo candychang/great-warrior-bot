@@ -44,7 +44,7 @@ class formTest(TestCase):
 		self.assertIn('Item size', content)
 		self.assertIn('Item color', content)
 		
-class FormModelTest(Testcase):
+class FormModelTest(TestCase):
 	def test_saving_and_retrieving_items(self):
 		first_item = Form()
 		first_item.text = 'First item'
@@ -68,7 +68,7 @@ class FormModelTest(Testcase):
 		first_saved_item = saved_items[0]
 		second_saved_item = saved_items[1]
 		third_saved_item = saved_items[2]
-		fourth_saved_item = save_items[3]
+		fourth_saved_item = saved_items[3]
 		self.assertEqual(first_saved_item.text,'First item')
 		self.assertEqual(second_saved_item.text,'Second item')
 		self.assertEqual(third_saved_item.text,'Third item')
