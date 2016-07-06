@@ -7,8 +7,9 @@ def home_page(request):
 	return HttpResponse('<html><p>Welcome</p></html>')
 
 def callback(request):
-    signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
-    if line_api.validate_signature(request.body, signature, LINE_SECRET):
-        return HttpResponse('<html><p>RECEIVED</p></html>')
-    else:
-        return HttpResponseBadRequest()
+    return HttpResponse('<html><p>RECEIVED</p></html>')
+    # signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
+    # if line_api.validate_signature(request.body, signature, LINE_SECRET):
+    #     return HttpResponse('<html><p>RECEIVED</p></html>')
+    # else:
+    #     return HttpResponseBadRequest()
