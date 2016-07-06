@@ -6,6 +6,7 @@ from line_bot import line_api
 def home_page(request):
 	return HttpResponse('<html><p>Welcome</p></html>')
 
+@csrf_exempt
 def callback(request):
     return HttpResponse('<html><p>RECEIVED</p></html>')
     # signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
