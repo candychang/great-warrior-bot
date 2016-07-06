@@ -10,7 +10,7 @@ def home_page(request):
 @csrf_exempt
 def callback(request):
     signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
-    return HttpResponse('<html><p>' + signature + '</p></html>')
+    return HttpResponse('<html><p>RECEIVED</p></html>')
     # if line_api.validate_signature(request.body, signature, LINE_SECRET):
     #     return HttpResponse('<html><p>RECEIVED</p></html>')
     # else:
