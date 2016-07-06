@@ -17,9 +17,9 @@ import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-DEBUG = TEMPLATE_DEBUG = True
+DEBUG = TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['great-warrior-bot.herokuapp.com', 'bot-staging.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['great-warrior-bot.herokuapp.com', 'bot-staging.herokuapp.com']
 
 DATABASES = {
     'default': {

@@ -21,6 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY1']
+LINE_CHANNEL_ID = os.environ['LINE_CHANNEL_ID']
+LINE_MID = os.environ['LINE_MID']
+LINE_SECRET = os.environ['LINE_SECRET']
+LINE_DEFAULT_ENDPOINT = "https://trialbot-api.line.me/v1"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
