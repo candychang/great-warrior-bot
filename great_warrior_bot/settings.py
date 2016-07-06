@@ -17,9 +17,9 @@ import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-DEBUG = TEMPLATE_DEBUG = False
+DEBUG = TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['great-warrior-bot.herokuapp.com', 'bot-staging.herokuapp.com']
+ALLOWED_HOSTS = ['great-warrior-bot.herokuapp.com', 'bot-staging.herokuapp.com', '127.0.0.1']
 
 DATABASES = {
     'default': {
@@ -48,6 +48,11 @@ STATICFILES_DIRS = [
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY1']
+
+LINE_CHANNEL_ID = os.environ['LINE_CHANNEL_ID']
+LINE_MID = os.environ['LINE_MID']
+LINE_SECRET = os.environ['LINE_SECRET']
+LINE_DEFAULT_ENDPOINT = "https://trialbot-api.line.me/v1"
 
 # Application definition
 

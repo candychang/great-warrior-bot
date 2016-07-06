@@ -1,5 +1,5 @@
 from django.test import TestCase
-from line_bot.views import home_page
+from line_bot.views import *
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 # Create your tests here.
