@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from line_bot.models import Request
 
@@ -10,6 +10,7 @@ def form_page(request):
 	if request.method == 'POST':
 		new_item = request.POST
 		Request.objects.create(**new_item)
+		return redirect('/')
 	else:
 		new_item = {}
 		

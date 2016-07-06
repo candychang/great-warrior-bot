@@ -46,11 +46,14 @@ class formTest(TestCase):
 		self.assertEqual(new_item.size, 'Item size')
 		self.assertEqual(new_item.itemcolor, 'Item color')
 		
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(response['location'], '/')
 		
 	def test_form_saving_items(self):
 		request = HttpRequest()
 		form_page(request)
 		self.assertEqual(Request.objects.count(), 0)
+		
 class FormModelTest(TestCase):
 	def test_saving_and_retrieving_items(self):
 		first_item = Request()
