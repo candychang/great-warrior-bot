@@ -6,9 +6,9 @@ import base64
 Validate LINE signature on HTTP requests
 
 Args:
-request_body (bytes): Body of HTTP request
-signature (string): Request header 'X-LINE-ChannelSignature'
-secret (string): Secret used to create digest from request_body
+request_body: Body of HTTP request
+signature: Request header 'X-LINE-ChannelSignature'
+secret: Secret used to create digest from request_body
 
 Returns:
 bool: True if valid, false otherwise
@@ -17,10 +17,11 @@ bool: True if valid, false otherwise
 def validate_signature(request_body, signature, secret):
     if (request_body and signature and secret):
 
-        message = bytes(request_body).encode('utf-8')
-        secret = bytes(secret).encode('utf-8')
+        request_body = bytes(request_body)
+        secret = bytes(secret)
+        signature = bytes(signature)
 
-        generated_sig = base64.b64encode(hmac.new(secret, message, digestmod=hashlib.sha256).digest())
+        generated_sig = base64.b64encode(hmac.new(secret, request_body, digestmod=hashlib.sha256).digest())
 
         return hmac.compare_digest(signature, generated_sig)
 
