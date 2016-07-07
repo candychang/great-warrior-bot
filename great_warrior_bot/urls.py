@@ -22,10 +22,6 @@ from django.views.defaults import server_error as server_error_view
 urlpatterns = [
 	url(r'^$', views.home_page, name='home'),
     url(r'callback', views.callback, name='callback'),
+    url(r'^500/$', server_error_view),
     # url(r'^admin/', include(admin.site.urls)),
 ]
-
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^500/$', server_error_view),
-    )
