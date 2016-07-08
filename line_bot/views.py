@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from line_bot import line_api
+from django.conf import settings
 
 # Create your views here.
 def home_page(request):
@@ -18,6 +19,6 @@ def callback(request):
             return HttpResponse('<html><p>RECEIVED</p></html>')
         else:
             return HttpResponseBadRequest()
-            
+
     elif request.method == 'GET':
         return HttpResponse('<html><p>GET</p></html>')
