@@ -15,7 +15,7 @@ def callback(request):
         
         signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
 
-        if line_api.validate_signature(request.body, signature, LINE_SECRET):
+        if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
             return HttpResponse('<html><p>RECEIVED</p></html>')
         else:
             return HttpResponseBadRequest()
