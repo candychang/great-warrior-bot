@@ -18,7 +18,7 @@ def callback(request):
         
         signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
         received_json_data = json.loads(request.body.decode("utf-8"))
-        for r in received_json_data.result:
+        for r in received_json_data[result]:
             c = r.content
             m = Message(sender="test", content=c.text)
             m.save()
