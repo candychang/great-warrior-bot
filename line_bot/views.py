@@ -14,12 +14,12 @@ def callback(request):
     if request.method == 'POST':
         
         signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
-        return render(request, 'callback.html', {'sig': signature})
+        # return render(request, 'callback.html', {'sig': signature})
 
-        # if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
-        #     return HttpResponse('<html><p>RECEIVED</p></html>')
-        # else:
-        #     return HttpResponseBadRequest()
+        if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
+            return render(request, 'callback.html', {'sig': signature})
+        else:
+            return HttpResponseBadRequest()
 
 
     elif request.method == 'GET':
