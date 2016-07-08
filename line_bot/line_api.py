@@ -14,9 +14,6 @@ Returns:
 bool: True if valid, false otherwise
 """
 
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
-
 
 def validate_signature(request_body, signature, secret):
     if (request_body and signature and secret):
