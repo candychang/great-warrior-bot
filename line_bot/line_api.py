@@ -26,4 +26,4 @@ def validate_signature(request_body, signature, secret):
         return hmac.compare_digest(signature, generated_sig)
 
     else:
-        return false
+        return False
