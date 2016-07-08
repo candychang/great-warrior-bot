@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from line_bot import line_api
 from django.conf import settings
@@ -19,6 +19,7 @@ def callback(request):
             return HttpResponse('<html><p>RECEIVED</p></html>')
         else:
             return HttpResponseBadRequest()
+
 
     elif request.method == 'GET':
         return HttpResponse('<html><p>GET</p></html>')

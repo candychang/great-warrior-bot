@@ -14,4 +14,5 @@ class homeTest(TestCase):
 		self.assertTrue(response.content.startswith(b'<html>'))
 		self.assertIn(b'<p>Welcome</p>', response.content)
 		self.assertTrue(response.content.endswith(b'</html>'))
+
 		
