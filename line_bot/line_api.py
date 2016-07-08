@@ -14,12 +14,15 @@ Returns:
 bool: True if valid, false otherwise
 """
 
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+
 def validate_signature(request_body, signature, secret):
     if (request_body and signature and secret):
 
         request_body = bytes(request_body)
         secret = bytes(secret)
-        signature = bytes(signature)
 
         generated_sig = base64.b64encode(hmac.new(secret, request_body, digestmod=hashlib.sha256).digest())
 
