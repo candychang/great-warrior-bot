@@ -35,8 +35,8 @@ def callback(request):
         m = Message.objects.all()
         if m:
             text= ""
-            for c in m:
-                text = text + c.content + "\n"
+            for message in m:
+                text = text + message.content + "\n"
             return render(request, 'callback.html', {'sig': text})
         else:
             return render(request, 'callback.html', {'sig': "get"})
