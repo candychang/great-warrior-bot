@@ -9,10 +9,15 @@ def home_page(request):
 
 @csrf_exempt
 def callback(request):
-    # return HttpResponse('<html><p>RECEIVED</p></html>')
-    signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
 
-    if line_api.validate_signature(request.body, signature, LINE_SECRET):
-        return HttpResponse('<html><p>RECEIVED</p></html>')
-    else:
-        return HttpResponseBadRequest()
+    if request.method == 'POST':
+        
+        signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
+        return render(request, 'callback.html', {'sig': signature})
+
+        # if line_api.validate_signature(request.body, signature, LINE_SECRET):
+        #     return HttpResponse('<html><p>RECEIVED</p></html>')
+        # else:
+        #     return HttpResponseBadRequest()
+    elif request.method == 'GET':
+        return HttpResponse('<html><p>GET</p></html>')
