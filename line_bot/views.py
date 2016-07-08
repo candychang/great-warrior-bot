@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from line_bot import line_api
 from django.conf import settings
 import json
+from line_bot.models import Message
 
 
 # Create your views here.
@@ -29,8 +30,5 @@ def callback(request):
 
 
     elif request.method == 'GET':
-        m = Message.objects.all()
-        if m
-            return render(request, 'callback.html', {'sig': m.first().content})
-        else
-            return render(request, 'callback.html', {'sig': "GET"})
+        m = Message.objects.count()
+        return render(request, 'callback.html', {'sig': m.count()})
