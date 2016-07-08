@@ -20,7 +20,7 @@ def callback(request):
         received_json_data = json.loads(request.body.decode("utf-8"))
         for r in received_json_data["result"]:
             c = r.content
-            m = Message(sender=c.from, content=c.text)
+            m = Message(sender="test", content=c.text)
             m.save()
 
         return HttpResponse()
