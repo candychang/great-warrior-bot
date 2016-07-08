@@ -33,7 +33,7 @@ def callback(request):
 
     elif request.method == 'GET':
         m = Message.objects.all()
-        if m:
-            return render(request, 'callback.html', {'sig': m.text})
+        if m.first():
+            return render(request, 'callback.html', {'sig': m.first().text})
         else:
             return render(request, 'callback.html', {'sig': "get"})
