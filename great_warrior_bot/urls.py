@@ -20,5 +20,6 @@ from line_bot import views
 urlpatterns = [
 	url(r'^$', views.home_page, name='home'),
 	url(r'^request/new$', views.form_page, name='request-form'),
+	url(r'^request/confirm$', views.confirm_page, name='request-confirm'),
     # url(r'^admin/', include(admin.site.urls)),
 ]

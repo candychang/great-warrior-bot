@@ -1,13 +1,13 @@
 <html>
 	<form method="POST">
 		<label for"item">item</label>
-		<input id="item" name="item" >
+		<input id="item" name="itemrequest" >
 		<label for"URL">URL</label>
-		<input id="URL" name="URL" >
+		<input id="URL" name="url" >
 		<label for"size">Size</label>
 		<input id="size" name="size" >
 		<label for"color">Color</label>
-		<input id="color" name="color" >
+		<input id="color" name="itemcolor" >
 		<input type="submit" value="Submit">
 		{% csrf_token %}
 	</form>

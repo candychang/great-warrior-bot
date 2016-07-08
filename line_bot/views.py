@@ -8,11 +8,14 @@ def home_page(request):
 	
 def form_page(request):
 	if request.method == 'POST':
-		new_item = request.POST
+		new_item = request.POST.copy()
+		del new_item['csrfmiddlewaretoken']
 		Request.objects.create(**new_item)
-		return redirect('/')
+		return redirect('request-confirm')
 	else:
 		new_item = {}
 		
 	return render(request, 'form.html', new_item,)
 
+def confirm_page(request):
+	 return render(request, 'confirm.html')

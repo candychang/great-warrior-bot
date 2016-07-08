@@ -47,7 +47,7 @@ class formTest(TestCase):
 		self.assertEqual(new_item.itemcolor, 'Item color')
 		
 		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/')
+		self.assertEqual(response['location'], '/request/confirm')
 		
 	def test_form_saving_items(self):
 		request = HttpRequest()
