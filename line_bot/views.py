@@ -17,7 +17,10 @@ def callback(request):
         
         signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
         received_json_data = json.loads(request.body.decode("utf-8"))
-        return render(request, 'callback.html', {'sig': received_json_data})
+        for message in received_json_data.result:
+            Message.objects.create('sender': message.content.from, 'content': message.content.text)
+
+        return HttpResponse()
 
         # if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
         #     return render(request, 'callback.html', {'sig': signature})
@@ -26,4 +29,8 @@ def callback(request):
 
 
     elif request.method == 'GET':
-        return HttpResponse('<html><p>GET</p></html>')
+        m = Message.objects.all()
+        if m
+            return render(request, 'callback.html', {'sig': m.first().content})
+        else
+            return render(request, 'callback.html', {'sig': "GET"})
