@@ -23,8 +23,8 @@ def callback(request):
         sent_text = ""
         for r in received_json_data["result"]:
             c = r["content"]
-            sending_user = sending_user + c["from"]
-            sent_text= sent_text + c["text"]
+            sending_user = string(c["from"])
+            sent_text= string(c["text"])
             m = Message(sender=sending_user, content=sent_text)
             m.save()
 
@@ -46,7 +46,7 @@ def callback(request):
     elif request.method == 'GET':
         m = Message.objects.all()
         if (len(m) > 0):
-            return render(request, 'callback.html', {messages: m})
+            return render(request, 'callback.html', {"messages": m})
         else:
             return render(request, 'callback.html', {'sig': "get"})
 
