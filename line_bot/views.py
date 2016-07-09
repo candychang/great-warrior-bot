@@ -28,6 +28,13 @@ def callback(request):
             m = Message(sender=sending_user, content=sent_text)
             m.save()
 
+        to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
+        headers = {'Content-type': "application/json",
+                'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
+                'X-Line-ChannelSecret': settings.LINE_SECRET,
+                'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
+        r = line_api.send_message(to_send, sending_user, headers)
+
         return HttpResponse()
 
         # if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
@@ -37,18 +44,9 @@ def callback(request):
 
 
     elif request.method == 'GET':
-        messages = Message.objects.all()
-        index = len(messages)
-        if index > 0:
-            last_message = messages[index - 1]
-            to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
-            sending_user = last_message.sender
-            headers = {'Content-type': "application/json",
-                    'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
-                    'X-Line-ChannelSecret': settings.LINE_SECRET,
-                    'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
-            r = line_api.send_message(to_send, sending_user, headers)
-            return render(request, 'callback.html', {'sig': r.text})
+        m = Message.objects.all()
+        if len(m) > 0:
+            return render(request, 'callback.html', {messages: m})
         else:
             return render(request, 'callback.html', {'sig': "get"})
 

@@ -40,7 +40,6 @@ def send_message(message_body, recipient, headers):
             "eventType": "138311608800106203",
             "content":{"contentType":1,"toType":1, "text": message_body}}
 
-
     headers = headers
     r = requests.post(url, data=json.dumps(data), headers=headers)
     return r
