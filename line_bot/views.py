@@ -45,7 +45,7 @@ def callback(request):
 
     elif request.method == 'GET':
         m = Message.objects.all()
-        if len(m) > 0:
+        if (len(m) > 0):
             return render(request, 'callback.html', {messages: m})
         else:
             return render(request, 'callback.html', {'sig': "get"})
