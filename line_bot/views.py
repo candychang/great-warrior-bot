@@ -23,8 +23,8 @@ def callback(request):
         sent_text = ""
         for r in received_json_data["result"]:
             c = r["content"]
-            sending_user = string(c["from"])
-            sent_text= string(c["text"])
+            sending_user = c["from"]
+            sent_text= c["text"]
             m = Message(sender=sending_user, content=sent_text)
             m.save()
 
