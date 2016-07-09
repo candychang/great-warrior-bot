@@ -35,7 +35,7 @@ def validate_signature(request_body, signature, secret):
 def send_message(message_body, recipient, headers):
 
     url = 'https://trialbot-api.line.me/v1/events'
-    data = {'to': recipient, 
+    data = {'to': [recipient], 
             'toChannel': 1383378250,
             'eventType': "138311608800106203",
             'content': { 'contentType': 1, 'toType': 1, 'text': message_body}}
