@@ -47,7 +47,7 @@ def callback(request):
                    'X-Line-ChannelSecret': settings.LINE_SECRET,
                    'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
             r = line_api.send_message(to_send, sending_user, headers)
-            return render(request, 'callback.html', {'sig': "Status: " + r.status_code + " Content: " + r.text})
+            return render(request, 'callback.html', {'sig': r.text})
         else:
             return render(request, 'callback.html', {'sig': "get"})
 
