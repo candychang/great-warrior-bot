@@ -1,6 +1,8 @@
 import hashlib
 import hmac
 import base64
+import json
+import requests
 
 """
 Validate LINE signature on HTTP requests
@@ -27,3 +29,16 @@ def validate_signature(request_body, signature, secret):
 
     else:
         return False
+
+
+def send_message(message_body, recipient, headers):
+
+    url = 'https://trialbot-api.line.me/v1/events'
+    data = {'to': recipient, 
+            'toChannel': 1383378250,
+            'eventType': "138311608800106203",
+            'content': { 'contentType': 1, 'toType': 1, 'text': message_body}}
+    headers = headers
+    r = requests.post(url, data=json.dumps(data), headers=headers)
+    
+
