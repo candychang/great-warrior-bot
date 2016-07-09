@@ -3,6 +3,7 @@ import hmac
 import base64
 import json
 import requests
+from django.http import HttpResponse
 
 """
 Validate LINE signature on HTTP requests
@@ -40,5 +41,6 @@ def send_message(message_body, recipient, headers):
             'content': { 'contentType': 1, 'toType': 1, 'text': message_body}}
     headers = headers
     r = requests.post(url, data=json.dumps(data), headers=headers)
+    return HttpResponse()
     
 
