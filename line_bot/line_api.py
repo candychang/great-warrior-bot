@@ -31,6 +31,18 @@ def validate_signature(request_body, signature, secret):
         return False
 
 
+"""
+Send message in reply to user
+
+Args:
+message_body: Text to send to user
+recipient: User who will receive the message
+headers: Http headers
+
+Returns:
+r: the response object
+"""
+
 def send_message(message_body, recipient, headers):
 
     url = 'https://trialbot-api.line.me/v1/events'
