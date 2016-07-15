@@ -40,8 +40,7 @@ def callback(request):
         #         'X-Line-ChannelSecret': settings.LINE_SECRET,
         #         'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
         # r = line_api.send_message(to_send, sending_user, headers)
-        
-        if line_api.validate_signature(request.body.decode("utf-8"), signature, settings.LINE_SECRET):
+        if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
