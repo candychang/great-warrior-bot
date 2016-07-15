@@ -20,12 +20,14 @@ bool: True if valid, false otherwise
 
 def validate_signature(request_body, signature, secret):
     if (request_body and signature and secret):
-
         secret = secret.encode("utf-8")
+        sig = signature.encode("utf-8")
 
         generated_sig = base64.b64encode(hmac.new(secret, request_body, digestmod=hashlib.sha256).digest())
-
-        return generated_sig == signature
+        
+        print(generated_sig)
+        print(sig)
+        return hmac.compare_digest(generated_sig, sig)
 
     else:
         return False
