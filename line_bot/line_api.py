@@ -25,7 +25,7 @@ def validate_signature(request_body, signature, secret):
 
         generated_sig = base64.b64encode(hmac.new(secret, request_body, digestmod=hashlib.sha256).digest())
 
-        return signature == generated_sig
+        return hmac.compare_digest(signature, generated_sig)
 
     else:
         return False
