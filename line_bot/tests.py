@@ -4,18 +4,21 @@ from line_bot.models import Request
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from line_bot.forms import RequestForm
+from line_bot.forms import EMPTY_ITEM_ERROR, RequestForm
 # Create your tests here.
 
 class RequestFormTest(TestCase):
 
-	def test_form_input_placeholder_css(self):
-		form = RequestForm()
-		self.assertIn('placeholder="Item"', form.as_p())
-		self.assertIn('class="form-control input-lg"', form.as_p())
+	# def test_form_input_placeholder_css(self):
+		# form = RequestForm()
+		# self.assertIn('placeholder="Item"', form.as_p())
+		# self.assertIn('class="form-control input-lg"', form.as_p())
 
-
-
+	def test_form_validation(self):
+		form = RequestForm(data={'itemrequest': ''})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(
+			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
 
 
 
