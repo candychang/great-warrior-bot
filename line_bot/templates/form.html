@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 	<form method="POST">
 		<label for"item">item</label>
 		<input id="item" name="itemrequest" >
@@ -11,4 +11,13 @@
 		<input type="submit" value="Submit">
 		{% csrf_token %}
 	</form>
+</html> -->
+
+<html>
+<form method="POST" action="{% block form_action %}{%endblock %}>
+	{{form.itemrequest}}
+	{%csrf_token %}
+	{% if error %}
+		<div class="form-group has-error">
+	{% endif %}
 </html>

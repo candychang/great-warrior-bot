@@ -20,7 +20,13 @@ class RequestFormTest(TestCase):
 		self.assertEqual(
 			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
 
-
+	def test_form_page_renders_home_template(self):
+		response = self.client.get('/request/new')
+		self.assertTemplateUsed(response, 'form.html')
+		
+	def test_from_page_uses_item_form(self):
+		response = self.client.get('/request/new')
+		self.assertIsInstance(response.context['form'], RequestForm)
 
 
 
