@@ -13,7 +13,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Form',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True))],
+            name='Message',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('content', models.TextField(default='')),
+                ('sender', models.TextField(default='')),
             ],
         ),
     ]
