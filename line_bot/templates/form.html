@@ -1,0 +1,23 @@
+<!-- <html>
+	<form method="POST">
+		<label for"item">item</label>
+		<input id="item" name="itemrequest" >
+		<label for"URL">URL</label>
+		<input id="URL" name="url" >
+		<label for"size">Size</label>
+		<input id="size" name="size" >
+		<label for"color">Color</label>
+		<input id="color" name="itemcolor" >
+		<input type="submit" value="Submit">
+		{% csrf_token %}
+	</form>
+</html> -->
+
+<html>
+<form method="POST" action="{% block form_action %}{%endblock %}>
+	{{form.itemrequest}}
+	{%csrf_token %}
+	{% if error %}
+		<div class="form-group has-error">
+	{% endif %}
+</html>
