@@ -1,0 +1,6 @@
+curl -X POST \
+-H 'Content-Type: application/json' \
+-H 'X-Line-ChannelID: 1472516491' \
+-H 'X-Line-ChannelSecret: 93813ebe2bc6242a06c45e0988d43444' \
+-H 'X-Line-Trusted-User-With-ACL: u5de34375c8c932fc60ddb3aea4be6384' \
+-d @message.json 'https://trialbot-api.line.me/v1/events'

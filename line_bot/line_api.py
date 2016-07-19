@@ -43,9 +43,7 @@ Returns:
 r: the response object
 """
 
-def send_message(message_body, recipient, headers):
-
-    url = 'https://trialbot-api.line.me/v1/events'
+def send_message(message_body, recipient, headers, url='https://trialbot-api.line.me/v1/events'):
     data = {"to": [recipient], 
             "toChannel": 1383378250,
             "eventType": "138311608800106203",

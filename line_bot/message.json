@@ -1,0 +1,10 @@
+{
+  "to":["ufd52854f4b8aa38ce430bbedecc11768"],
+  "toChannel":1383378250,
+  "eventType":"138311608800106203",
+  "content":{
+    "contentType":1,
+    "toType":1,
+    "text":"Hello, I'm LineBot!"
+  }
+}
