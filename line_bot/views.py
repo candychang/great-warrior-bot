@@ -10,11 +10,10 @@ def home_page(request):
 def form_page(request):	
 	if request.method == 'GET':
 		form = RequestForm()
-	elif request.method == 'POST':
-		form = RequestForm(request.POST)
-		# if form.is_valid():
-		new_form = form.save()
-		return HttpResponseRedirect( "/request/confirm")
 	return render(request, 'form.html', {'form': form})
 def confirm_page(request):
-	 return render(request, 'confirm.html')
+	if request.method == 'POST':
+		form = RequestForm(request.POST)
+		if form.is_valid():
+			new_form = form.save()
+			return render(request, 'confirm.html', {'order' : new_form})
