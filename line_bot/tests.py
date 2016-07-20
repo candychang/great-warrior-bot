@@ -4,9 +4,8 @@ from line_bot.models import Request
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from line_bot.forms import EMPTY_ITEM_ERROR, RequestForm
 # Create your tests here.
-
+EMPTY_ITEM_ERROR = "You can't have an empty list item"
 class RequestFormTest(TestCase):
 
 	# def test_form_input_placeholder_css(self):
@@ -27,7 +26,24 @@ class RequestFormTest(TestCase):
 	def test_from_page_uses_item_form(self):
 		response = self.client.get('/request/new')
 		self.assertIsInstance(response.context['form'], RequestForm)
+		
+	def test_from_is_saved(self):
+		request = HttpRequest()
+		request.method = 'POST'
+		request.POST = {"itemrequest": 'A new item',
+						"url":  'A new url',
+						"size": 'Item size',
+						"itemcolor": 'Item color'}
 
+		response = form_page(request)
+		content = response.content.decode()
+		
+		self.assertEqual(Request.objects.count(), 1)
+		new_item = Request.objects.first()
+		self.assertEqual(new_item.itemrequest, 'A new item')
+		self.assertEqual(new_item.url, 'A new url')
+		self.assertEqual(new_item.size, 'Item size')
+		self.assertEqual(new_item.itemcolor, 'Item color')
 
 
 
