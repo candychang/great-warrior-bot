@@ -15,7 +15,7 @@
 
 <html>
 <form method="POST" action="{% block form_action %}{%endblock %}>
-	{{form.itemrequest}}
+	{{form.as_p}}
 	{%csrf_token %}
 	{% if error %}
 		<div class="form-group has-error">

@@ -21,10 +21,12 @@ def step_impl(context):
 	context.browser.fill('url', 'target')
 	context.browser.fill('size', '7')
 	context.browser.fill('itemcolor', 'blue')
+	
 @when(u'I submit the form')
 def step_impl(context):
+	pass
 
 
 @then(u'I receive an error message')
 def step_impl(context):
-
+	pass

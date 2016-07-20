@@ -4,9 +4,8 @@ from line_bot.models import Request
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from line_bot.forms import EMPTY_ITEM_ERROR, RequestForm
 # Create your tests here.
-
+EMPTY_ITEM_ERROR = "You can't have an empty list item"
 class RequestFormTest(TestCase):
 
 	# def test_form_input_placeholder_css(self):
