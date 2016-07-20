@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from line_bot.models import Request, RequestForm
 
 
@@ -8,8 +8,13 @@ def home_page(request):
 	return render(request, 'home.html')
 	
 def form_page(request):	
-	form = RequestForm()
+	if request.method == 'GET':
+		form = RequestForm()
+	elif request.method == 'POST':
+		form = RequestForm(request.POST)
+		# if form.is_valid():
+		new_form = form.save()
+		return HttpResponseRedirect( "/request/confirm")
 	return render(request, 'form.html', {'form': form})
-
 def confirm_page(request):
 	 return render(request, 'confirm.html')

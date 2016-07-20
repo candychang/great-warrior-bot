@@ -26,7 +26,24 @@ class RequestFormTest(TestCase):
 	def test_from_page_uses_item_form(self):
 		response = self.client.get('/request/new')
 		self.assertIsInstance(response.context['form'], RequestForm)
+		
+	def test_from_is_saved(self):
+		request = HttpRequest()
+		request.method = 'POST'
+		request.POST = {"itemrequest": 'A new item',
+						"url":  'A new url',
+						"size": 'Item size',
+						"itemcolor": 'Item color'}
 
+		response = form_page(request)
+		content = response.content.decode()
+		
+		self.assertEqual(Request.objects.count(), 1)
+		new_item = Request.objects.first()
+		self.assertEqual(new_item.itemrequest, 'A new item')
+		self.assertEqual(new_item.url, 'A new url')
+		self.assertEqual(new_item.size, 'Item size')
+		self.assertEqual(new_item.itemcolor, 'Item color')
 
 
 
