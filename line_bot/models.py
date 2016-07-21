@@ -38,3 +38,5 @@ class RequestForm(ModelForm):
 			'url': {'required': EMPTY_ITEM_ERROR}
 		}
 
+class UserModel(models.Model):
+	pass

@@ -8,8 +8,7 @@ def home_page(request):
 	return render(request, 'home.html')
 	
 def form_page(request):	
-	if request.method == 'GET':
-		form = RequestForm()
+	form = RequestForm()
 	return render(request, 'form.html', {'form': form})
 def confirm_page(request):
 	if request.method == 'POST':

@@ -35,7 +35,7 @@ class RequestFormTest(TestCase):
 						"size": 'Item size',
 						"itemcolor": 'Item color'}
 
-		response = form_page(request)
+		response = confirm_page(request)
 		content = response.content.decode()
 		
 		self.assertEqual(Request.objects.count(), 1)
