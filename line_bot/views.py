@@ -21,3 +21,8 @@ def orders_page(request, user_id):
 		user = UserModel.objects.get(id=user_id)
 		order = user.request_set.all()
 	return render(request, 'orders.html', {'order' : order} )
+
+def admin_orders_page(request):
+	if request.method == 'GET':
+		user = UserModel.objects.all()
+	return render(request, 'adminorders.html', {'user' : user} ) 

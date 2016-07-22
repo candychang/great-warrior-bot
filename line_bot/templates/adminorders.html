@@ -1,0 +1,22 @@
+<html>
+{% for person in user %}
+	<h1>
+	{{person.username}}
+	</h1>
+		<ul>
+		{% for order in person.request_set.all %}
+			<li>
+			{{order.itemrequest}}
+			</br>
+			{{order.url}}
+			</br>
+			{{order.size}}
+			</br>
+			{{order.itemcolor}}
+			</br>
+			</li>
+			{% endfor %}
+		</ul>
+	</br>
+{% endfor %}
+</html>

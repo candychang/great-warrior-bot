@@ -45,8 +45,10 @@ class RequestFormTest(TestCase):
 		self.assertEqual(new_item.size, 'Item size')
 		self.assertEqual(new_item.itemcolor, 'Item color')
 
-
-
+class AdminOrderTest(TestCase):
+	def test_template
+		response = self.client.get('/admin/orders')
+		self.assertTemplateUsed(response, 'adminorders.html')
 
 
 
