@@ -21,7 +21,7 @@ def callback(request):
             received_json_data = json.loads(request.body.decode("utf-8"))
             sending_user = ""
             sent_text = ""
-            for r in received_json_data["result"]:
+            for event in received_json_data["result"]:
                 c = r["content"]
                 sending_user = sending_user + c["from"]
                 sent_text= sent_text + c["text"]
@@ -32,11 +32,7 @@ def callback(request):
             last_message = messages[index - 1]
             to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
             sending_user = last_message.sender
-            headers = {'Content-Type': "application/json",
-                    'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
-                    'X-Line-ChannelSecret': settings.LINE_SECRET,
-                    'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
-            r = line_api.send_message(to_send, sending_user, headers)
+            r = line_api.send_message(to_send, sending_user)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()

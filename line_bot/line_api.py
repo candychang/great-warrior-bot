@@ -4,6 +4,13 @@ import base64
 import json
 import requests
 from django.http import HttpResponse
+from django.conf import settings
+
+
+HEADERS =  {'Content-Type': "application/json",
+            'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
+            'X-Line-ChannelSecret': settings.LINE_SECRET,
+            'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
 
 """
 Validate LINE signature on HTTP requests
@@ -43,16 +50,25 @@ Returns:
 r: the response object
 """
 
-def send_message(message_body, recipient, headers):
-
-    url = 'https://trialbot-api.line.me/v1/events'
+def send_message(message_body, recipient, url = 'https://trialbot-api.line.me/v1/events'):
     data = {"to": [recipient], 
             "toChannel": 1383378250,
             "eventType": "138311608800106203",
             "content":{"contentType":1,"toType":1, "text": message_body}}
-
-    headers = headers
-    r = requests.post(url, data=json.dumps(data), headers=headers)
+    r = requests.post(url, data=json.dumps(data), headers=HEADERS)
     return r
+
+"""
+Parse LINE event and send appropriate reply
+
+Args:
+event: JSON data for one LINE event
+
+Returns:
+r: the response object
+"""
+
+def parse_and_reply(event):
+    pass
     
 
