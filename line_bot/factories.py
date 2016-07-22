@@ -1,8 +1,20 @@
-from line_bot.models import *
+import line_bot 
 import factory
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.DjangoModelFactory):
 	class Meta:
-		model = line_bot.UserModel
+		model = line_bot.models.UserModel
 		
-		username = ""
+	username = "shazbot"
+	line_id = "00379732a4nzy543"
+		
+class RequestFactory(factory.DjangoModelFactory):
+	class Meta:
+		model = line_bot.models.Request
+		
+	itemrequest = 'default'
+	url = 'default'
+	size = 'default'
+	itemcolor = 'default'
+		
+	user = factory.SubFactory(UserFactory)

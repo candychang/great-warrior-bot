@@ -3,7 +3,12 @@ from django.forms import ModelForm, TextInput
 
 EMPTY_ITEM_ERROR = "You can't have an empty list item"
 # Create your models here.
+class UserModel(models.Model):
+	username = models.TextField()
+	line_id = models.TextField()
+	
 class Request(models.Model):
+	user = models.ForeignKey(UserModel, default = 1 )
 	itemrequest = models.TextField(default='')
 	url = models.TextField(default='')
 	size = models.TextField(default='')
@@ -24,7 +29,7 @@ class RequestForm(ModelForm):
 				'class': 'form-control input-lg',
 			}),
 			'size' : TextInput(attrs={
-				'placeholder': 'Size',
+				'placeholder': 'Size', 
 				'class': 'form-control input-lg',
 			}),
 			'itemcolor' : TextInput(attrs={
@@ -38,5 +43,4 @@ class RequestForm(ModelForm):
 			'url': {'required': EMPTY_ITEM_ERROR}
 		}
 
-class UserModel(models.Model):
-	pass
+

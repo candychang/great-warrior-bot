@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
-from line_bot.models import Request, RequestForm
+from line_bot.models import Request, RequestForm, UserModel
 
 
 # Create your views here.
@@ -16,3 +16,8 @@ def confirm_page(request):
 		if form.is_valid():
 			new_form = form.save()
 			return render(request, 'confirm.html', {'order' : new_form})
+def orders_page(request, user_id):
+	if request.method == 'GET':
+		user = UserModel.objects.get(id=user_id)
+		order = user.request_set.all()
+	return render(request, 'orders.html', {'order' : order} )
