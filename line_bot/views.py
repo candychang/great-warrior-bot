@@ -1,11 +1,11 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from line_bot import line_api
 from django.conf import settings
 import json
 import requests
-from line_bot.models import Message, Request
+from line_bot.models import *
 
 # Create your views here.
 def home_page(request):
@@ -46,3 +46,19 @@ def callback(request):
             return render(request, 'callback.html', {'messages': m})
         else:
             return render(request, 'callback.html', {'sig': "get"})
+
+def form_page(request):	
+	form = RequestForm()
+	return render(request, 'form.html', {'form': form})
+def confirm_page(request):
+	if request.method == 'POST':
+		form = RequestForm(request.POST)
+		if form.is_valid():
+			new_form = form.save()
+			return render(request, 'confirm.html', {'order' : new_form})
+def orders_page(request, user_id):
+	if request.method == 'GET':
+		user = UserModel.objects.get(id=user_id)
+		order = user.request_set.all()
+	return render(request, 'orders.html', {'order' : order} )
+
