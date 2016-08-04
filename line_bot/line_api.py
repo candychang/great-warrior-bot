@@ -59,16 +59,23 @@ def send_message(message_body, recipient, url = 'https://trialbot-api.line.me/v1
     return r
 
 """
-Parse LINE event and send appropriate reply
+Parse LINE event and returns relevant info
 
 Args:
 event: JSON data for one LINE event
 
 Returns:
-r: the response object
+event_data: dictionary with keys --
+    message_id: Message ID string
+    sender_id: String with LINE ID of sender
+    response_type: integer indicating type of event
+    metadata: dict of metadata
+    text: string with message
+    location: dict of location data
+
 """
 
-def parse_and_reply(event):
+def parse_event(event):
     pass
-    
+
 

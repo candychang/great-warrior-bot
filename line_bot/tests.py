@@ -27,29 +27,70 @@ class validateSigTest(TestCase):
 		self.assertFalse(result)
 
 
+#TODO
 @patch('line_bot.line_api.send_message')
-class parseAndReplyTest(TestCase):
+class parseTest(TestCase):
 	
-	# TODO
+
 	def test_parse_text(self, mock_class):
 		event = json.dumps(constants.MESSAGE_EVENT)
 
 
-	#TODO
 	def test_parse_sticker(self):
 		event = json.dumps(constants.STICKER_EVENT)
 
-	#TODO
+
 	def test_parse_add_friend(self):
 		event = json.dumps(constants.ADD_FRIEND_OPERATION)
 
-	#TODO
+
 	def test_block_user(self):
 		event = json.dumps(constants.BLOCK_OPERATION)
 
-	#TODO
 	def test_add_user_info(self):
 		event = json.dupms(constants.CONTACT_INFO)
+
+#TODO
+class botCommandsTest(TestCase):
+
+	def test_hello(self):
+		pass
+
+	def test_bye(self):
+		pass
+
+	def test_order(self):
+		pass
+
+	def test_help(self):
+		pass
+
+	def test_status(self):
+		pass
+
+	def test_edit(self):
+		pass
+
+	def test_list(self):
+		pass
+#TODO
+class botFormTest(TestCase):
+
+	
+	def test_form_link(self):
+		pass
+
+	def test_form_img_query(self):
+		pass
+
+	def test_img_saved(self):
+		pass
+
+	def test_no_img_to_save(self):
+		pass
+
+	def test_correct_confirmation(self):
+		pass
 
 		
 # class apiTest(TestCase):
