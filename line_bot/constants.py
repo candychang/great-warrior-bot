@@ -1,60 +1,66 @@
-MESSAGE_TEXT = "test message"
-FROM_MID ="uff2aec188e58752ee1fb0f9507c6529a"
-TO_MID = "u0a556cffd4da0dd89c94fb36e36e1cdc"
+MESSAGE_EVENT = "138311609000106303"
+OPERATION_EVENT = "138311609100106403"
 
-MESSAGE_TYPE = 1
-STICKER_TYPE = 8
-MEDIA_TYPE = 2
-LOCATION_TYPE = 7
-CONTACT_TYPE = 10
+TEXT = 1
+STICKER = 8
+IMAGE = 2
+VIDEO = 3
+AUDIO = 4
+LOCATION = 7
+CONTACT = 10
 
-BLOCK_TYPE = 8
-ADD_FRIEND_TYPE = 4
+BLOCK = 8
+ADD_FRIEND = 4
+
+
+SAMPLE_MESSAGE_TEXT = "test message"
+SAMPLE_FROM_MID ="uff2aec188e58752ee1fb0f9507c6529a"
+SAMPLE_TO_MID = "u0a556cffd4da0dd89c94fb36e36e1cdc"
 
 SAMPLE_MID = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 SAMPLE_NAME = "Celty Sturlson"
 
-MESSAGE_EVENT = {
+TEXT_EVENT = {
                   "id": "ABCDEF-12345678901",
-                  "eventType": "138311609000106303",
+                  "eventType": MESSAGE_EVENT,
                   "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                   "fromChannel": 1341301815,
                   "to": [
-                    TO_MID
+                    SAMPLE_TO_MID
                   ],
                   "toChannel": 1441301333,
                   "content": {
                     "id": "325708",
-                    "contentType": 1,
-                    "from": FROM_MID,
+                    "contentType": TEXT,
+                    "from": SAMPLE_FROM_MID,
                     "createdTime": 1462629479859,
                     "to": [
-                      TO_MID
+                      SAMPLE_TO_MID
                     ],
                     "toType": 1,
                     "contentMetadata": {
                     },
-                    "text": MESSAGE_TEXT,
+                    "text": SAMPLE_MESSAGE_TEXT,
                     "location": None
                   }
                 }
 
 STICKER_EVENT = {
                   "id": "ABCDEF-12345678901",
-                  "eventType": "138311609000106303",
+                  "eventType": MESSAGE_EVENT,
                   "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                   "fromChannel": 1341301815,
                   "to": [
-                    TO_MID
+                    SAMPLE_TO_MID
                   ],
                   "toChannel": 1441301333,
                   "content": {
                     "id": "325708",
-                    "contentType": STICKER_TYPE,
-                    "from": FROM_MID,
+                    "contentType": STICKER,
+                    "from": SAMPLE_FROM_MID,
                     "createdTime": 1462629479859,
                     "to": [
-                      TO_MID
+                      SAMPLE_TO_MID
                     ],
                     "toType": 1,
                     "contentMetadata": {
@@ -68,22 +74,72 @@ STICKER_EVENT = {
                   }
                 }
 
-MEDIA_EVENT = {
+IMAGE_EVENT = {
                   "id": "ABCDEF-12345678901",
-                  "eventType": "138311609000106303",
+                  "eventType": MESSAGE_EVENT,
                   "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                   "fromChannel": 1341301815,
                   "to": [
-                    TO_MID
+                    SAMPLE_TO_MID
                   ],
                   "toChannel": 1441301333,
                   "content": {
                     "id": "325708",
-                    "contentType": MEDIA_TYPE,
-                    "from": FROM_MID,
+                    "contentType": IMAGE,
+                    "from": SAMPLE_FROM_MID,
                     "createdTime": 1462629479859,
                     "to": [
-                      TO_MID
+                      SAMPLE_TO_MID
+                    ],
+                    "toType": 1,
+                    "contentMetadata": {
+                    },
+                    "text": None,
+                    "location": None
+                  }
+                }
+
+VIDEO_EVENT = {
+                  "id": "ABCDEF-12345678901",
+                  "eventType": MESSAGE_EVENT,
+                  "from": "u206d25c2ea6bd87c17655609a1c37cb8",
+                  "fromChannel": 1341301815,
+                  "to": [
+                    SAMPLE_TO_MID
+                  ],
+                  "toChannel": 1441301333,
+                  "content": {
+                    "id": "325708",
+                    "contentType": VIDEO,
+                    "from": SAMPLE_FROM_MID,
+                    "createdTime": 1462629479859,
+                    "to": [
+                      SAMPLE_TO_MID
+                    ],
+                    "toType": 1,
+                    "contentMetadata": {
+                    },
+                    "text": None,
+                    "location": None
+                  }
+                }
+
+AUDIO_EVENT = {
+                  "id": "ABCDEF-12345678901",
+                  "eventType": MESSAGE_EVENT,
+                  "from": "u206d25c2ea6bd87c17655609a1c37cb8",
+                  "fromChannel": 1341301815,
+                  "to": [
+                    SAMPLE_TO_MID
+                  ],
+                  "toChannel": 1441301333,
+                  "content": {
+                    "id": "325708",
+                    "contentType": AUDIO,
+                    "from": SAMPLE_FROM_MID,
+                    "createdTime": 1462629479859,
+                    "to": [
+                      SAMPLE_TO_MID
                     ],
                     "toType": 1,
                     "contentMetadata": {
@@ -95,20 +151,20 @@ MEDIA_EVENT = {
 
 LOCATION_EVENT = {
                   "id": "ABCDEF-12345678901",
-                  "eventType": "138311609000106303",
+                  "eventType": MESSAGE_EVENT,
                   "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                   "fromChannel": 1341301815,
                   "to": [
-                    TO_MID
+                    SAMPLE_TO_MID
                   ],
                   "toChannel": 1441301333,
                   "content": {
                     "id": "325708",
-                    "contentType": LOCATION_TYPE,
-                    "from": FROM_MID,
+                    "contentType": LOCATION,
+                    "from": SAMPLE_FROM_MID,
                     "createdTime": 1462629479859,
                     "to": [
-                      TO_MID
+                      SAMPLE_TO_MID
                     ],
                     "toType": 1,
                     "contentMetadata": {
@@ -123,22 +179,22 @@ LOCATION_EVENT = {
                   }
                 }
 
-CONTACT_INFO = {
+CONTACT_EVENT = {
                   "id": "ABCDEF-12345678901",
-                  "eventType": "138311609000106303",
+                  "eventType": MESSAGE_EVENT,
                   "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                   "fromChannel": 1341301815,
                   "to": [
-                    TO_MID
+                    SAMPLE_TO_MID
                   ],
                   "toChannel": 1441301333,
                   "content": {
                     "id": "325708",
-                    "contentType": CONTACT_TYPE,
-                    "from": FROM_MID,
+                    "contentType": CONTACT,
+                    "from": SAMPLE_FROM_MID,
                     "createdTime": 1462629479859,
                     "to": [
-                      TO_MID
+                      SAMPLE_TO_MID
                     ],
                     "toType": 1,
                     "contentMetadata": {
@@ -152,7 +208,7 @@ CONTACT_INFO = {
 
 BLOCK_OPERATION = {
                       "id": "ABCDEF-12345678901",
-                      "eventType": "138311609100106403",
+                      "eventType": OPERATION_EVENT,
                       "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                       "fromChannel": 1341301815,
                       "to": [
@@ -161,7 +217,7 @@ BLOCK_OPERATION = {
                       "toChannel": 1441301333,
                       "content": {
                         "revision": 253,
-                        "opType": BLOCK_TYPE,
+                        "opType": BLOCK,
                         "params": [
                           SAMPLE_MID,
                           None,
@@ -172,7 +228,7 @@ BLOCK_OPERATION = {
 
 ADD_FRIEND_OPERATION = {
                           "id": "ABCDEF-12345678901",
-                          "eventType": "138311609100106403",
+                          "eventType": OPERATION_EVENT,
                           "from": "u206d25c2ea6bd87c17655609a1c37cb8",
                           "fromChannel": 1341301815,
                           "to": [
@@ -181,7 +237,7 @@ ADD_FRIEND_OPERATION = {
                           "toChannel": 1441301333,
                           "content": {
                             "revision": 253,
-                            "opType": ADD_FRIEND_TYPE,
+                            "opType": ADD_FRIEND,
                             "params": [
                               SAMPLE_MID,
                               None,

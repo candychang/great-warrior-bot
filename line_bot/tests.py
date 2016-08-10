@@ -1,15 +1,16 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, SimpleTestCase, RequestFactory
 from line_bot.views import *
 from line_bot.models import Request
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from line_bot.line_api import *
-from line_bot.constants import *
-from unittest.mock import Mock, patch, call, call_args
+from line_bot import constants
+from unittest.mock import Mock, patch, call
+from unittest import TestCase
 
 
-class validateSigTest(TestCase):
+class ValidateSigTest(TestCase):
 
 	def test_valid_sig(self):
 		channel_sig ='i19IcCmVwVmMVz2x4hhmqbgl1KeU0WnXBgoDYFeWNgs='
@@ -28,30 +29,71 @@ class validateSigTest(TestCase):
 
 
 #TODO
-@patch('line_bot.line_api.send_message')
-class parseTest(TestCase):
+class ParseEventTest(SimpleTestCase):
 	
-
-	def test_parse_text(self, mock_class):
-		event = json.dumps(constants.MESSAGE_EVENT)
+	def test_parse_text(self):
+		event = constants.TEXT_EVENT
+		result = line_api.parse_event(event)
+		self.assertIsInstance(result, messageEvent)
+		self.assertEqual(result.content_type, constants.MESSAGE)
 
 
 	def test_parse_sticker(self):
-		event = json.dumps(constants.STICKER_EVENT)
+		event = constants.STICKER_EVENT
+		result = line_api.parse_event(event)
+		self.assertIsInstance(result, messageEvent)
+		self.assertEqual(result.content_type, constants.STICKER)
 
 
-	def test_parse_add_friend(self):
-		event = json.dumps(constants.ADD_FRIEND_OPERATION)
+	def test_parse_image(self):
+		event = constants.IMAGE_EVENT
+		result = line_api.parse_event(event)
+		self.assertIsInstance(result, messageEvent)
+		self.assertEqual(result.content_type, constants.IMAGE)
 
 
-	def test_block_user(self):
-		event = json.dumps(constants.BLOCK_OPERATION)
+	# def test_parse_add_friend(self):
+	# 	event = json.dumps(constants.ADD_FRIEND_OPERATION)
+	# 	result = line_api.parse_event(event)
+	# 	self.assertIsInstance(result, operationEvent)
+	# 	self.assertEqual(result.type, constants.ADD_FRIEND)
 
-	def test_add_user_info(self):
-		event = json.dupms(constants.CONTACT_INFO)
 
+	# def test_block_user(self):
+	# 	event = json.dumps(constants.BLOCK_OPERATION)y
+	# 	result = line_api.parse_event(event)
+	# 	self.assertIsInstance(result, operationEvent)
+	# 	self.assertEqual(result.type, constants.BLOCK)
+
+
+## To develop full API wrapper:
+	# def test_parse_location(self):
+	# 	event = json.dumps(constants.LOCATION_EVENT)
+	# 	result = line_api.parse_event(event)
+	# 	self.assertIsInstance(result, messageEvent)
+	# 	self.assertEqual(result.type, constants.LOCATION)
+
+	# def test_parse_video(self):
+	# 	event = json.dumps(constants.VIDEO_EVENT)
+	# 	result = line_api.parse_event(event)
+	# 	self.assertIsInstance(result, messageEvent)
+	# 	self.assertEqual(result.type, constants.VIDEO)
+
+	# def test_parse_audio(self):
+	# 	event = json.dumps(constants.AUDIO_EVENT)
+	# 	result = line_api.parse_event(event)
+	# 	self.assertIsInstance(result, messageEvent)
+	# 	self.assertEqual(result.type, constants.AUDIO)
+
+	# def test_parse_contact(self):
+	# 	event = json.dupms(constants.CONTACT_EVENT)
+	# 	result = line_api.parse_event(event)
+	# 	self.assertIsInstance(result, messageEvent)
+	# 	self.assertEqual(result.type, constants.CONTACT)
+
+	
 #TODO
-class botCommandsTest(TestCase):
+class BotCommandsTest(TestCase):
 
 	def test_hello(self):
 		pass
@@ -74,7 +116,7 @@ class botCommandsTest(TestCase):
 	def test_list(self):
 		pass
 #TODO
-class botFormTest(TestCase):
+class BotFormTest(TestCase):
 
 	
 	def test_form_link(self):
@@ -110,42 +152,42 @@ class botFormTest(TestCase):
 	# 	pass
 
 
-EMPTY_ITEM_ERROR = "You can't have an empty list item"
-class RequestFormTest(TestCase):
+# EMPTY_ITEM_ERROR = "You can't have an empty list item"
+# class RequestFormTest(TestCase):
 
-	# def test_form_input_placeholder_css(self):
-		# form = RequestForm()
-		# self.assertIn('placeholder="Item"', form.as_p())
-		# self.assertIn('class="form-control input-lg"', form.as_p())
+# 	# def test_form_input_placeholder_css(self):
+# 		# form = RequestForm()
+# 		# self.assertIn('placeholder="Item"', form.as_p())
+# 		# self.assertIn('class="form-control input-lg"', form.as_p())
 
-	def test_form_validation(self):
-		form = RequestForm(data={'itemrequest': ''})
-		self.assertFalse(form.is_valid())
-		self.assertEqual(
-			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
+# 	def test_form_validation(self):
+# 		form = RequestForm(data={'itemrequest': ''})
+# 		self.assertFalse(form.is_valid())
+# 		self.assertEqual(
+# 			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
 
-	def test_form_page_renders_home_template(self):
-		response = self.client.get('/request/new')
-		self.assertTemplateUsed(response, 'form.html')
+# 	def test_form_page_renders_home_template(self):
+# 		response = self.client.get('/request/new')
+# 		self.assertTemplateUsed(response, 'form.html')
 		
-	def test_from_page_uses_item_form(self):
-		response = self.client.get('/request/new')
-		self.assertIsInstance(response.context['form'], RequestForm)
+# 	def test_from_page_uses_item_form(self):
+# 		response = self.client.get('/request/new')
+# 		self.assertIsInstance(response.context['form'], RequestForm)
 		
-	def test_from_is_saved(self):
-		request = HttpRequest()
-		request.method = 'POST'
-		request.POST = {"itemrequest": 'A new item',
-						"url":  'A new url',
-						"size": 'Item size',
-						"itemcolor": 'Item color'}
+# 	def test_from_is_saved(self):
+# 		request = HttpRequest()
+# 		request.method = 'POST'
+# 		request.POST = {"itemrequest": 'A new item',
+# 						"url":  'A new url',
+# 						"size": 'Item size',
+# 						"itemcolor": 'Item color'}
 
-		response = confirm_page(request)
-		content = response.content.decode()
+# 		response = confirm_page(request)
+# 		content = response.content.decode()
 		
-		self.assertEqual(Request.objects.count(), 1)
-		new_item = Request.objects.first()
-		self.assertEqual(new_item.itemrequest, 'A new item')
-		self.assertEqual(new_item.url, 'A new url')
-		self.assertEqual(new_item.size, 'Item size')
-		self.assertEqual(new_item.itemcolor, 'Item color')
+# 		self.assertEqual(Request.objects.count(), 1)
+# 		new_item = Request.objects.first()
+# 		self.assertEqual(new_item.itemrequest, 'A new item')
+# 		self.assertEqual(new_item.url, 'A new url')
+# 		self.assertEqual(new_item.size, 'Item size')
+# 		self.assertEqual(new_item.itemcolor, 'Item color')
