@@ -33,7 +33,9 @@ class RequestFormTest(TestCase):
 		request.POST = {"itemrequest": 'A new item',
 						"url":  'A new url',
 						"size": 'Item size',
-						"itemcolor": 'Item color'}
+						"itemcolor": 'Item color',
+						"cost": 'Cost',
+						"image": 'Image',}
 
 		response = confirm_page(request)
 		content = response.content.decode()
@@ -44,7 +46,8 @@ class RequestFormTest(TestCase):
 		self.assertEqual(new_item.url, 'A new url')
 		self.assertEqual(new_item.size, 'Item size')
 		self.assertEqual(new_item.itemcolor, 'Item color')
-
+		self.assertEqual(new_item.cost, 'Cost')
+		self.assertEqual(new_item.image, 'Image')
 class AdminOrderTest(TestCase):
 	def test_template
 		response = self.client.get('/admin/orders')
