@@ -14,12 +14,12 @@ class Request(models.Model):
 	size = models.TextField(default='')
 	itemcolor = models.TextField(default='')
 	cost = models.TextField(default='')
-	image = models.TextField(default='')
+	
 class RequestForm(ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['itemrequest', 'url', 'size', 'itemcolor', 'cost', 'image',]
+		fields = ['itemrequest', 'url', 'size', 'itemcolor', 'cost',]
 		widgets = {
 			'itemrequest' : TextInput(attrs={
 				'placeholder': 'Item',
@@ -41,10 +41,7 @@ class RequestForm(ModelForm):
 				'placeholder': 'Cost',
 				'class': 'form-control input-lg',
 			}),
-			'image' : TextInput(attrs={
-				'placeholder': 'Image',
-				'class': 'form-control input-lg',
-			}),
+
 		}
 
 		error_messages = {
