@@ -51,11 +51,12 @@ Returns:
 r: the response object
 """
 
-def send_message(message_body, recipient, url = 'https://trialbot-api.line.me/v1/events'):
+def send_message(message_body, recipient):
     data = {"to": [recipient], 
             "toChannel": 1383378250,
             "eventType": "138311608800106203",
             "content":{"contentType":1,"toType":1, "text": message_body}}
+    url = 'https://trialbot-api.line.me/v1/events'
     r = requests.post(url, data=json.dumps(data), headers=HEADERS)
     return r
 
