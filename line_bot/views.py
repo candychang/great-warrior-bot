@@ -13,9 +13,7 @@ def home_page(request):
 
 @csrf_exempt
 def callback(request):
-
     if request.method == 'POST':
-
         signature = request.META['HTTP_X_LINE_CHANNELSIGNATURE']
         if line_api.validate_signature(request.body, signature, settings.LINE_SECRET):
             received_json_data = json.loads(request.body.decode("utf-8"))
@@ -27,12 +25,12 @@ def callback(request):
                 sent_text= sent_text + c["text"]
                 m = Message(sender=sending_user, content=sent_text)
                 m.save()
-            # messages = Message.objects.all()
-            # index = len(messages)
-            # last_message = messages[index - 1]
-            # to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
-            # sending_user = last_message.sender
-            # r = line_api.send_message(to_send, sending_user)
+            messages = Message.objects.all()
+            index = len(messages)
+            last_message = messages[index - 1]
+            to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
+            sending_user = last_message.sender
+            r = line_api.send_message(to_send, sending_user)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
@@ -65,8 +63,8 @@ def orders_page(request, user_id):
 def simulate_bot(request):
     if request.method == 'POST':
         form = request.POST
-        mid = form.get("recipient")
-        message = form.get("message")
+        mid = str(form.get("recipient"))
+        message = str(form.get("message"))
         sent = line_api.send_message(message, mid)
         if sent:
             return render(request, 'simulate.html', {'status': sent.status_code, 'm': None})
