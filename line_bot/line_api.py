@@ -73,45 +73,47 @@ Event object - either messageEvent or operationEvent,
 
 def parse_event(event):
     if event["eventType"] == constants.MESSAGE_EVENT:
-        return messageEvent(event["content"])
+        return MessageEvent(event["content"])
     elif event["eventType"] == constants.OPERATION_EVENT:
-        return operationEvent(event["content"])
+        return OperationEvent(event["content"])
+
+
 
 def fetch_media(message_id):
     pass
 
-def get_content(content_data):
-    content_type = content_data['contentType']
-    if content_type == constants.TEXT:
-        return textContent(content_data['text'])
-    elif content_type == constants.IMAGE:
-        return fetchMedia(message_id)
-    elif content_type == constants.STICKER:
-        return stickerContent(content_data['contentMetadata'])
-    else:
-        return None
-    
-class messageEvent(object):
-    def __init__(self, content_data):
-        message_id = content_data['id']
-        message_sender = content_data['from']
-        content_type = content_data['contentType']
-        content = get_content(content_data)
-    
 
-class textContent(object):
+class MessageEvent(object):
+    def __init__(self, content_data):
+        self.message_id = content_data["id"]
+        self.sender = content_data["from"]
+        self.content_type = content_data["contentType"]
+        self.content = self.get_content(content_data)
+
+    def get_content(self, content_data):
+        content_type = content_data['contentType']
+        if content_type == constants.TEXT:
+            return TextContent(content_data['text'])
+        elif content_type == constants.IMAGE:
+            return fetch_media(self.message_id)
+        elif content_type == constants.STICKER:
+            return StickerContent(content_data['contentMetadata'])
+        else:
+            return None
+
+class TextContent(object):
     def __init__(self, content_text):
         text = content_text
 
-class imageContent(object):
+class ImageContent(object):
     def __init__(self, content_metadata):
         pass
 
-class stickerContent(object):
+class StickerContent(object):
     def __init__(self, content_metadata):
         pass
 
 
-class operationEvent(object):
+class OperationEvent(object):
     def __init__(self, content_data):
         pass

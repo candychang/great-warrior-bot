@@ -34,21 +34,21 @@ class ParseEventTest(SimpleTestCase):
 	def test_parse_text(self):
 		event = constants.TEXT_EVENT
 		result = line_api.parse_event(event)
-		self.assertIsInstance(result, messageEvent)
-		self.assertEqual(result.content_type, constants.MESSAGE)
+		self.assertIsInstance(result, MessageEvent)
+		self.assertEqual(result.content_type, constants.TEXT)
 
 
 	def test_parse_sticker(self):
 		event = constants.STICKER_EVENT
 		result = line_api.parse_event(event)
-		self.assertIsInstance(result, messageEvent)
+		self.assertIsInstance(result, MessageEvent)
 		self.assertEqual(result.content_type, constants.STICKER)
 
 
 	def test_parse_image(self):
 		event = constants.IMAGE_EVENT
 		result = line_api.parse_event(event)
-		self.assertIsInstance(result, messageEvent)
+		self.assertIsInstance(result, MessageEvent)
 		self.assertEqual(result.content_type, constants.IMAGE)
 
 
