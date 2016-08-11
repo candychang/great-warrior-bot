@@ -1,0 +1,17 @@
+<html>
+    <p>{{status}} </p>
+
+    {% if m %}
+        <p>Sender: {{m.sender}}</p>
+        <p>Content: {{m.content}}</p>
+    {% endif %}
+
+    <form method="POST" action="/simulatebot">
+        {%csrf_token %}
+        <label for="recipient">To: </label>
+        <input id="recipient" type="text" name="recipient"  value= {{m.sender}}/>
+        <label for="message">To send: </label>
+        <input id="message" type="text" name="message"/>
+        <input type="submit" value="Submit">
+    </form> 
+</html>

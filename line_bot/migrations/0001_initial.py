@@ -15,4 +15,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True))],
         ),
+        migrations.CreateModel(
+            name='Message',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('content', models.TextField(default='')),
+                ('sender', models.TextField(default='')),
+            ],
+        ),
     ]

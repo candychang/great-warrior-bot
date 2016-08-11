@@ -25,5 +25,6 @@ urlpatterns = [
 	url(r'^request/confirm$', views.confirm_page, name='request-confirm'),
     url(r'callback', views.callback, name='callback'),
 	url(r'^users/(?P<user_id>\d+)/orders$', views.orders_page, name='orders'),
+    url(r'simulatebot', views.simulate_bot, name='simulate-bot'),
     # url(r'^admin/', include(admin.site.urls)),
 ]

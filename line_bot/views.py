@@ -27,12 +27,12 @@ def callback(request):
                 sent_text= sent_text + c["text"]
                 m = Message(sender=sending_user, content=sent_text)
                 m.save()
-            messages = Message.objects.all()
-            index = len(messages)
-            last_message = messages[index - 1]
-            to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
-            sending_user = last_message.sender
-            r = line_api.send_message(to_send, sending_user)
+            # messages = Message.objects.all()
+            # index = len(messages)
+            # last_message = messages[index - 1]
+            # to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
+            # sending_user = last_message.sender
+            # r = line_api.send_message(to_send, sending_user)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
@@ -62,3 +62,16 @@ def orders_page(request, user_id):
 		order = user.request_set.all()
 	return render(request, 'orders.html', {'order' : order} )
 
+def simulate_bot(request):
+    if request.method == 'POST':
+        form = request.POST
+        mid = form.get("recipient")
+        message = form.get("message")
+        sent = line_api.send_message(message, mid)
+        if sent:
+            return render(request, 'simulate.html', {'status': sent.status_code, 'm': None})
+        else:
+            return render(request, 'simulate.html', {'status': sent.status_code, 'm': None})
+    else:
+        m = Message.objects.last()
+        return render(request, 'simulate.html', {'status': "Last received message", 'm': m})
