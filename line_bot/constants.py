@@ -16,6 +16,12 @@ ADD_FRIEND = 4
 
 
 SAMPLE_MESSAGE_TEXT = "test message"
+SAMPLE_STICKER_DATA = {
+                      "STKPKGID": "1",
+                      "STKID": "1",
+                      "STKVER": "100",
+                      "STKTXT": "[zzz]"
+                      }
 SAMPLE_FROM_MID ="uff2aec188e58752ee1fb0f9507c6529a"
 SAMPLE_TO_MID = "u0a556cffd4da0dd89c94fb36e36e1cdc"
 
@@ -65,12 +71,7 @@ STICKER_EVENT = {
                       SAMPLE_TO_MID
                     ],
                     "toType": 1,
-                    "contentMetadata": {
-                      "STKPKGID": "1",
-                      "STKID": "1",
-                      "STKVER": "100",
-                      "STKTXT": "[zzz]"
-                    },
+                    "contentMetadata": SAMPLE_STICKER_DATA,
                     "text": None,
                     "location": None
                   }
