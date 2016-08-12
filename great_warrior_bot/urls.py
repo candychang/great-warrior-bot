@@ -17,11 +17,15 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from line_bot import views
 
+from django.views.defaults import server_error as server_error_view
+
 urlpatterns = [
 	url(r'^$', views.home_page, name='home'),
 	url(r'^request/new$', views.form_page, name='request-form'),
 	url(r'^request/confirm$', views.confirm_page, name='request-confirm'),
+    url(r'callback', views.callback, name='callback'),
 	url(r'^users/(?P<user_id>\d+)/orders$', views.orders_page, name='orders'),
 	url(r'^admin/orders$', views.admin_orders_page, name='admin-orders'),
+    url(r'simulatebot', views.simulate_bot, name='simulate-bot'),
     # url(r'^admin/', include(admin.site.urls)),
 ]
