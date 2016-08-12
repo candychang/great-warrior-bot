@@ -1,5 +1,5 @@
 <html>
-    <p>{{status}} </p>
+    <p>Status: {{status}} </p>
 
     {% if m %}
         <p>Sender: {{m.sender}}</p>
@@ -8,10 +8,8 @@
 
     <form method="POST" action="/simulatebot">
         {%csrf_token %}
-        <label for="recipient">To: </label>
-        <input id="recipient" type="textarea" name="recipient" value= "{{m.sender}}" />  
-        <label for="message">To send: </label>
-        <input id="message" type="text" name="message"/>
+        <p><label for="recipient">To: </label><input id="recipient" type="textarea" name="recipient" value= "{{m.sender}}" /></p>
+        <p><textarea id="message" type="text" name="message" cols="40" rows="5">To send</textarea></p>
         <input type="submit" value="Submit">
     </form> 
 </html>
