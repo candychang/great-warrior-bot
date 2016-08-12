@@ -27,12 +27,10 @@ def callback(request):
                 sent_text= sent_text + c["text"]
                 m = Message(sender=sending_user, content=sent_text)
                 m.save()
-            # messages = Message.objects.all()
-            # index = len(messages)
-            # last_message = messages[index - 1]
-            # to_send = "HI! This is LineBot. You sent me this message: " + last_message.content
-            # sending_user = last_message.sender
-            # r = line_api.send_message(to_send, sending_user)
+                if m.content == "test":
+                    to_send = "HI! This is LineBot. The test succeeded!"
+                    sending_user = m.sender
+                    r = line_api.send_message(to_send, sending_user)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()

@@ -5,6 +5,7 @@ import json
 import requests
 from django.http import HttpResponse
 from django.conf import settings
+from line_bot import constants
 
 """
 Validate LINE signature on HTTP requests
@@ -43,7 +44,7 @@ r: the response object
 def send_message(message_body, recipient):
 
     url = 'https://trialbot-api.line.me/v1/events'
-    
+
     data = {"to": [recipient], 
             "toChannel": 1383378250,
             "eventType": "138311608800106203",
@@ -58,61 +59,61 @@ def send_message(message_body, recipient):
     return r
 
 
-# """
-# Parse LINE event and returns relevant info
+"""
+Parse LINE event and returns relevant info
 
-# Args:
-# event: Dictionary of data for one LINE event
+Args:
+event: Dictionary of data for one LINE event
 
-# Returns:
-# Event object - either messageEvent or operationEvent,
-#                depending on the event type
+Returns:
+Event object - either messageEvent or operationEvent,
+               depending on the event type
 
-# """
+"""
 
-# def parse_event(event):
-#     if event["eventType"] == constants.MESSAGE_EVENT:
-#         return MessageEvent(event["content"])
-#     elif event["eventType"] == constants.OPERATION_EVENT:
-#         return OperationEvent(event["content"])
-
-
-
-# def fetch_media(message_id):
-#     pass
+def parse_event(event):
+    if event["eventType"] == constants.MESSAGE_EVENT:
+        return MessageEvent(event["content"])
+    elif event["eventType"] == constants.OPERATION_EVENT:
+        return OperationEvent(event["content"])
 
 
-# class MessageEvent(object):
-#     def __init__(self, content_data):
-#         self.message_id = content_data["id"]
-#         self.sender = content_data["from"]
-#         self.content_type = content_data["contentType"]
-#         self.content = self.get_content(content_data)
 
-#     def get_content(self, content_data):
-#         content_type = content_data['contentType']
-#         if content_type == constants.TEXT:
-#             return TextContent(content_data['text'])
-#         elif content_type == constants.IMAGE:
-#             return fetch_media(self.message_id)
-#         elif content_type == constants.STICKER:
-#             return StickerContent(content_data['contentMetadata'])
-#         else:
-#             return None
-
-# class TextContent(object):
-#     def __init__(self, content_text):
-#         text = content_text
-
-# class ImageContent(object):
-#     def __init__(self, content_metadata):
-#         pass
-
-# class StickerContent(object):
-#     def __init__(self, content_metadata):
-#         pass
+def fetch_media(message_id):
+    pass
 
 
-# class OperationEvent(object):
-#     def __init__(self, content_data):
-#         pass
+class MessageEvent(object):
+    def __init__(self, content_data):
+        self.message_id = content_data["id"]
+        self.sender = content_data["from"]
+        self.content_type = content_data["contentType"]
+        self.content = self.get_content(content_data)
+
+    def get_content(self, content_data):
+        content_type = content_data['contentType']
+        if content_type == constants.TEXT:
+            return TextContent(content_data['text'])
+        elif content_type == constants.IMAGE:
+            return fetch_media(self.message_id)
+        elif content_type == constants.STICKER:
+            return StickerContent(content_data['contentMetadata'])
+        else:
+            return None
+
+class TextContent(object):
+    def __init__(self, content_text):
+        text = content_text
+
+class ImageContent(object):
+    def __init__(self, content_metadata):
+        pass
+
+class StickerContent(object):
+    def __init__(self, content_metadata):
+        pass
+
+
+class OperationEvent(object):
+    def __init__(self, content_data):
+        pass

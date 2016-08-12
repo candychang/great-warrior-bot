@@ -1,4 +1,4 @@
-from django.test import TestCase, SimpleTestCase, RequestFactory
+from django.test import TestCase, SimpleTestCase, Client
 from line_bot.views import *
 from line_bot.models import Request
 from django.core.urlresolvers import resolve
@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from line_bot.line_api import *
 from line_bot import constants
 from unittest.mock import Mock, patch, call
-from unittest import TestCase
+from unittest import TestCase, skipIf
 
 
 class ValidateSigTest(TestCase):
@@ -134,22 +134,46 @@ class BotFormTest(TestCase):
 	def test_correct_confirmation(self):
 		pass
 
-		
-# class apiTest(TestCase):
-	# def setUp(self):
-	#  	self.factory = RequestFactory()
+@skipIf(constants.SKIP_REAL, "Skipping tests that hit real API server")	
+class apiTest(TestCase):
+	@patch('line_bot.line_api.validate_signature')
+	def test_valid_message(self, mock_sig):
+		mock_sig.return_value = True
+		DATA = {"result":[
+				{
+				  "id": "ABCDEF-12345678901",
+				  "eventType": "138311609000106303",
+				  "from": "u206d25c2ea6bd87c17655609a1c37cb8",
+				  "fromChannel": 1341301815,
+				  "to": [
+				    "u0a556cffd4da0dd89c94fb36e36e1cdc"
+				  ],
+				  "toChannel": 1441301333,
+				  "content": {
+				    "id": "325708",
+				    "contentType": 1,
+				    "from": "uf7d924cd126613f0ad15e13c52deb340",
+				    "createdTime": 1462629479859,
+				    "to": [
+				      "u0a556cffd4da0dd89c94fb36e36e1cdc"
+				    ],
+				    "toType": 1,
+				    "contentMetadata": {
+				    },
+				    "text": "test",
+				    "location": None
+				  }
+				}
+				]
+			}
+		url = "/callback"
+		c = Client()
+		r = c.post(url, data=json.dumps(DATA), content_type="application/json", HTTP_X_LINE_CHANNELSIGNATURE='i19IcCmVwVmMVz2x4hhmqbgl1KeU0WnXBgoDYFeWNgs=')
+		self.assertEqual(r.status_code, 200)
 
-	# @patch('line_bot.line_api.validate_signature')
-	# @patch('line_bot.send_message')
-	# def test_valid_message(self, mock_sig, mock_send_message):
-	# 	mock_sig.return_value = True
-	# 	headers = {'HTTP_X_LINE_CHANNELSIGNATURE': 'i19IcCmVwVmMVz2x4hhmqbgl1KeU0WnXBgoDYFeWNgs='}
-	# 	r = requests.post(url, data=json.dumps(DATA), headers=HEADERS)
-	# 	self.assertEqual(response.status_code, 200)
-
-	# def test_send_message(self):
-	# 	line_api.send_message("test", "12345678", url="https://bot-staging.herokuapp.com/")
-	# 	pass
+	def test_send_message(self):
+		response = line_api.send_message("testing", "uf7d924cd126613f0ad15e13c52deb340")
+		self.assertEqual(response.status_code, 200)
 
 
 # EMPTY_ITEM_ERROR = "You can't have an empty list item"
