@@ -59,6 +59,12 @@ def orders_page(request, user_id):
 		order = user.request_set.all()
 	return render(request, 'orders.html', {'order' : order} )
 
+
+def admin_orders_page(request):
+	if request.method == 'GET':
+		user = UserModel.objects.all()
+	return render(request, 'adminorders.html', {'user' : user} ) 
+
 def simulate_bot(request):
     if request.method == 'POST':
         form = request.POST
@@ -72,3 +78,4 @@ def simulate_bot(request):
     else:
         m = Message.objects.last()
         return render(request, 'simulate.html', {'status': "Last received message", 'm': m})
+

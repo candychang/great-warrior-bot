@@ -38,7 +38,8 @@ class RequestFormTest(TestCase):
 		request.POST = {"itemrequest": 'A new item',
 						"url":  'A new url',
 						"size": 'Item size',
-						"itemcolor": 'Item color'}
+						"itemcolor": 'Item color',
+						"cost": 'Cost',}
 
 		response = confirm_page(request)
 		content = response.content.decode()
@@ -49,6 +50,12 @@ class RequestFormTest(TestCase):
 		self.assertEqual(new_item.url, 'A new url')
 		self.assertEqual(new_item.size, 'Item size')
 		self.assertEqual(new_item.itemcolor, 'Item color')
+		self.assertEqual(new_item.cost, 'Cost')
+
+class AdminOrderTest(TestCase):
+	def test_template(self):
+		response = self.client.get('/admin/orders')
+		self.assertTemplateUsed(response, 'adminorders.html')
 
 
 class ValidateSigTest(TestCase):
@@ -59,6 +66,7 @@ class ValidateSigTest(TestCase):
 		secret = "secret"
 		result = line_api.validate_signature(message, channel_sig, secret)
 		self.assertTrue(result)
+
 
 
 	def test_invalid_sig(self):
