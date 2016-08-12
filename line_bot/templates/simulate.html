@@ -9,7 +9,7 @@
     <form method="POST" action="/simulatebot">
         {%csrf_token %}
         <label for="recipient">To: </label>
-        <input id="recipient" type="text" name="recipient"  value= {{m.sender}}/>
+        <input id="recipient" type="text" name="recipient" initial= {{m.sender}} />  
         <label for="message">To send: </label>
         <input id="message" type="text" name="message"/>
         <input type="submit" value="Submit">
