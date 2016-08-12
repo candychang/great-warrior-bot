@@ -7,7 +7,48 @@ from django.template.loader import render_to_string
 from line_bot.line_api import *
 from line_bot import constants
 from unittest.mock import Mock, patch, call
-from unittest import TestCase, skipIf
+from unittest import skipIf
+
+
+EMPTY_ITEM_ERROR = "You can't have an empty list item"
+class RequestFormTest(TestCase):
+
+	def test_form_input_placeholder_css(self):
+		form = RequestForm()
+		self.assertIn('placeholder="Item"', form.as_p())
+		self.assertIn('class="form-control input-lg"', form.as_p())
+
+	def test_form_validation(self):
+		form = RequestForm(data={'itemrequest': ''})
+		self.assertFalse(form.is_valid())
+		self.assertEqual(
+			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
+
+	def test_form_page_renders_home_template(self):
+		response = self.client.get('/request/new')
+		self.assertTemplateUsed(response, 'form.html')
+		
+	def test_from_page_uses_item_form(self):
+		response = self.client.get('/request/new')
+		self.assertIsInstance(response.context['form'], RequestForm)
+		
+	def test_from_is_saved(self):
+		request = HttpRequest()
+		request.method = 'POST'
+		request.POST = {"itemrequest": 'A new item',
+						"url":  'A new url',
+						"size": 'Item size',
+						"itemcolor": 'Item color'}
+
+		response = confirm_page(request)
+		content = response.content.decode()
+		
+		self.assertEqual(Request.objects.count(), 1)
+		new_item = Request.objects.first()
+		self.assertEqual(new_item.itemrequest, 'A new item')
+		self.assertEqual(new_item.url, 'A new url')
+		self.assertEqual(new_item.size, 'Item size')
+		self.assertEqual(new_item.itemcolor, 'Item color')
 
 
 class ValidateSigTest(TestCase):
@@ -174,44 +215,3 @@ class apiTest(TestCase):
 	def test_send_message(self):
 		response = line_api.send_message("testing", "uf7d924cd126613f0ad15e13c52deb340")
 		self.assertEqual(response.status_code, 200)
-
-
-# EMPTY_ITEM_ERROR = "You can't have an empty list item"
-# class RequestFormTest(TestCase):
-
-# 	# def test_form_input_placeholder_css(self):
-# 		# form = RequestForm()
-# 		# self.assertIn('placeholder="Item"', form.as_p())
-# 		# self.assertIn('class="form-control input-lg"', form.as_p())
-
-# 	def test_form_validation(self):
-# 		form = RequestForm(data={'itemrequest': ''})
-# 		self.assertFalse(form.is_valid())
-# 		self.assertEqual(
-# 			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
-
-# 	def test_form_page_renders_home_template(self):
-# 		response = self.client.get('/request/new')
-# 		self.assertTemplateUsed(response, 'form.html')
-		
-# 	def test_from_page_uses_item_form(self):
-# 		response = self.client.get('/request/new')
-# 		self.assertIsInstance(response.context['form'], RequestForm)
-		
-# 	def test_from_is_saved(self):
-# 		request = HttpRequest()
-# 		request.method = 'POST'
-# 		request.POST = {"itemrequest": 'A new item',
-# 						"url":  'A new url',
-# 						"size": 'Item size',
-# 						"itemcolor": 'Item color'}
-
-# 		response = confirm_page(request)
-# 		content = response.content.decode()
-		
-# 		self.assertEqual(Request.objects.count(), 1)
-# 		new_item = Request.objects.first()
-# 		self.assertEqual(new_item.itemrequest, 'A new item')
-# 		self.assertEqual(new_item.url, 'A new url')
-# 		self.assertEqual(new_item.size, 'Item size')
-# 		self.assertEqual(new_item.itemcolor, 'Item color')
