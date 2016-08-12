@@ -12,25 +12,52 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+DEBUG = TEMPLATE_DEBUG = True
+
+ALLOWED_HOSTS = ['great-warrior-bot.herokuapp.com', 'bot-staging.herokuapp.com']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# Update database configuration with $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static'),
+]
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gbczu08tlphb=1nb@lv6ckn8=b((9u%$k_t=g=o2i-z(bic1@8'
+SECRET_KEY = os.environ['SECRET_KEY1']
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+LINE_CHANNEL_ID = os.environ['LINE_CHANNEL_ID']
+LINE_MID = os.environ['LINE_MID']
+LINE_SECRET = os.environ['LINE_SECRET']
+LINE_DEFAULT_ENDPOINT = "https://trialbot-api.line.me/v1"
 
 # Application definition
 
 INSTALLED_APPS = (
+    'line_bot',
     'behave_django',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,7 +65,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'line_bot',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,16 +99,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'great_warrior_bot.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -98,9 +114,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_URL = '/static/'
-
 TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
+
+
+
+
+
+

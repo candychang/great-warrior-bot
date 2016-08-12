@@ -6,13 +6,17 @@ EMPTY_ITEM_ERROR = "You can't have an empty list item"
 class UserModel(models.Model):
 	username = models.TextField()
 	line_id = models.TextField()
-	
+
 class Request(models.Model):
 	user = models.ForeignKey(UserModel, default = 1 )
 	itemrequest = models.TextField(default='')
 	url = models.TextField(default='')
 	size = models.TextField(default='')
 	itemcolor = models.TextField(default='')
+
+class Message(models.Model):
+    content = models.TextField(default="")
+    sender = models.TextField(default="")
 	
 class RequestForm(ModelForm):
 
@@ -42,5 +46,3 @@ class RequestForm(ModelForm):
 			'itemrequest': {'required': EMPTY_ITEM_ERROR},
 			'url': {'required': EMPTY_ITEM_ERROR}
 		}
-
-
