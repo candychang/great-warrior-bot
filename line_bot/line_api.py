@@ -74,7 +74,7 @@ def parse_event(event):
     event: Dictionary of data for one LINE event
 
     Returns:
-    Event object: either messageEvent or operationEvent,
+    Event object: either MessageEvent or OperationEvent,
                    depending on the event type
 
     """
