@@ -27,6 +27,7 @@ SAMPLE_TO_MID = "u0a556cffd4da0dd89c94fb36e36e1cdc"
 
 SAMPLE_MID = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 SAMPLE_NAME = "Celty Sturlson"
+REAL_TEST_MID = "uf7d924cd126613f0ad15e13c52deb340"
 
 TEXT_EVENT = {
                   "id": "ABCDEF-12345678901",

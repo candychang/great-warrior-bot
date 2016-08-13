@@ -194,5 +194,11 @@ class apiTest(TestCase):
 		self.assertEqual(r.status_code, 200)
 
 	def test_send_message(self):
-		response = line_api.send_message("testing", "uf7d924cd126613f0ad15e13c52deb340")
+		response = line_api.send_message("testing", REAL_TEST_MID)
 		self.assertEqual(response.status_code, 200)
+
+	def test_fetch_profile(self):
+		profile = fetch_profile(constants.REAL_TEST_MID)
+		self.assertEqual("candy", profile["displayName"])
+
+

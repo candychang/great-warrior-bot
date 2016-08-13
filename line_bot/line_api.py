@@ -120,7 +120,7 @@ def fetch_profile(mid):
               "mid": "<User ID>",
               "displayName": "<Display Name>" }
     """
-    content = None
+    profile = None
     url = "https://trialbot-api.line.me/v1/profiles?mids=" + str(mid)
     headers = {'Content-Type': "application/json",
                 'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
@@ -129,9 +129,10 @@ def fetch_profile(mid):
 
     r = requests.get(url, headers=headers)
     if r.status_code == 200:
-        content = json.loads(r.json())
+        content = r.json()
+        profile = content["contacts"][0]
 
-    return content
+    return profile
 
 
 
