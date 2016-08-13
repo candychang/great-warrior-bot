@@ -13,3 +13,4 @@ six==1.5.2
 splinter==0.7.3
 psycopg2==2.6.1
 requests==2.2.1
+Pillow==3.3.0
