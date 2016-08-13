@@ -106,11 +106,39 @@ def fetch_image(message_id):
 
     return content
 
+def fetch_profile(mid):
+    """
+    Fetches the profile for a LINE user
+
+    Args:
+    mid: The LINE member ID of a user
+
+    Returns:
+    content: A dictionary with profile information, following LINE API data model
+             {"statusMessage": "<Status Message>",
+              "pictureUrl": "<URL for image>",
+              "mid": "<User ID>",
+              "displayName": "<Display Name>" }
+    """
+    content = None
+    url = "https://trialbot-api.line.me/v1/profiles?mids=" + str(mid)
+    headers = {'Content-Type': "application/json",
+                'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
+                'X-Line-ChannelSecret': settings.LINE_SECRET,
+                'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
+
+    r = requests.get(url, headers=headers)
+    if r.status_code == 200:
+        content = json.loads(r.json())
+
+    return content
+
+
 
 class MessageEvent(object):
     """
     Class representing a LINE message object. Takes in a LINE message's
-    json data as a dictionary, and saves relevant info as attributesz
+    content data as a dictionary, and saves relevant info as attributes
 
     Attributes:
     message_id: ID of the message. Used for LINE API requests
@@ -161,5 +189,16 @@ class StickerContent(object):
 
 
 class OperationEvent(object):
+    """
+    Class representing a LINE operation object. Takes in a LINE operation's
+    content data as a dictionary, and saves relevant info as attributes
+
+    Attributes:
+    message_id: ID of the message. Used for LINE API requests
+    op_type: Type of message (text, image, sticker supported as of now)
+    mid: the LINE member ID of acting user
+    """
     def __init__(self, content_data):
-        pass
+        self.message_id = content_data["id"]
+        self.op_type = content_data["opType"]
+        self.mid = content_data["params"][0]
