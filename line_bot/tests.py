@@ -103,15 +103,15 @@ class ParseEventTest(SimpleTestCase):
 		result = line_api.parse_event(event)
 		self.assertIsInstance(result, OperationEvent)
 		self.assertEqual(result.op_type, constants.ADD_FRIEND)
-		self.assertEqual(result.mid, SAMPLE_MID)
+		self.assertEqual(result.mid, constants.SAMPLE_MID)
 
 
 	def test_block_user(self):
 		event = constants.BLOCK_OPERATION
 		result = line_api.parse_event(event)
 		self.assertIsInstance(result, OperationEvent)
-		self.assertEqual(result.type, constants.BLOCK)
-		self.assertEqual(result.mid, SAMPLE_MID)
+		self.assertEqual(result.op_type, constants.BLOCK)
+		self.assertEqual(result.mid, constants.SAMPLE_MID)
 
 	
 #TODO

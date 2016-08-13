@@ -199,6 +199,6 @@ class OperationEvent(object):
     mid: the LINE member ID of acting user
     """
     def __init__(self, content_data):
-        self.message_id = content_data["id"]
+        self.revision = content_data["revision"]
         self.op_type = content_data["opType"]
         self.mid = content_data["params"][0]
