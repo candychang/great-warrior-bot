@@ -85,6 +85,7 @@ class ParseEventTest(SimpleTestCase):
 		result = line_api.parse_event(event)
 		self.assertIsInstance(result, MessageEvent)
 		self.assertEqual(result.content_type, constants.TEXT)
+		self.assertEqual(result.content, constants.SAMPLE_MESSAGE_TEXT)
 
 
 	def test_parse_sticker(self):
@@ -92,53 +93,33 @@ class ParseEventTest(SimpleTestCase):
 		result = line_api.parse_event(event)
 		self.assertIsInstance(result, MessageEvent)
 		self.assertEqual(result.content_type, constants.STICKER)
+		self.assertEqual(result.content, constants.SAMPLE_STICKER_DATA)
 
-
-	def test_parse_image(self):
+	@patch('line_bot.line_api.fetch_image')
+	def test_parse_image(self, mock_fetch):
+		mock_image = Mock()
+		mock_fetch.return_value = mock_image
 		event = constants.IMAGE_EVENT
 		result = line_api.parse_event(event)
 		self.assertIsInstance(result, MessageEvent)
 		self.assertEqual(result.content_type, constants.IMAGE)
+		self.assertEqual(result.content, mock_image)
 
 
-	# def test_parse_add_friend(self):
-	# 	event = json.dumps(constants.ADD_FRIEND_OPERATION)
-	# 	result = line_api.parse_event(event)
-	# 	self.assertIsInstance(result, operationEvent)
-	# 	self.assertEqual(result.type, constants.ADD_FRIEND)
+	def test_parse_add_friend(self):
+		event = constants.ADD_FRIEND_OPERATION
+		result = line_api.parse_event(event)
+		self.assertIsInstance(result, OperationEvent)
+		self.assertEqual(result.op_type, constants.ADD_FRIEND)
+		self.assertEqual(result.mid, constants.SAMPLE_MID)
 
 
-	# def test_block_user(self):
-	# 	event = json.dumps(constants.BLOCK_OPERATION)y
-	# 	result = line_api.parse_event(event)
-	# 	self.assertIsInstance(result, operationEvent)
-	# 	self.assertEqual(result.type, constants.BLOCK)
-
-
-## To develop full API wrapper:
-	# def test_parse_location(self):
-	# 	event = json.dumps(constants.LOCATION_EVENT)
-	# 	result = line_api.parse_event(event)
-	# 	self.assertIsInstance(result, messageEvent)
-	# 	self.assertEqual(result.type, constants.LOCATION)
-
-	# def test_parse_video(self):
-	# 	event = json.dumps(constants.VIDEO_EVENT)
-	# 	result = line_api.parse_event(event)
-	# 	self.assertIsInstance(result, messageEvent)
-	# 	self.assertEqual(result.type, constants.VIDEO)
-
-	# def test_parse_audio(self):
-	# 	event = json.dumps(constants.AUDIO_EVENT)
-	# 	result = line_api.parse_event(event)
-	# 	self.assertIsInstance(result, messageEvent)
-	# 	self.assertEqual(result.type, constants.AUDIO)
-
-	# def test_parse_contact(self):
-	# 	event = json.dupms(constants.CONTACT_EVENT)
-	# 	result = line_api.parse_event(event)
-	# 	self.assertIsInstance(result, messageEvent)
-	# 	self.assertEqual(result.type, constants.CONTACT)
+	def test_block_user(self):
+		event = constants.BLOCK_OPERATION
+		result = line_api.parse_event(event)
+		self.assertIsInstance(result, OperationEvent)
+		self.assertEqual(result.op_type, constants.BLOCK)
+		self.assertEqual(result.mid, constants.SAMPLE_MID)
 
 	
 #TODO
@@ -221,5 +202,11 @@ class apiTest(TestCase):
 		self.assertEqual(r.status_code, 200)
 
 	def test_send_message(self):
-		response = line_api.send_message("testing", "uf7d924cd126613f0ad15e13c52deb340")
+		response = line_api.send_message("testing", REAL_TEST_MID)
 		self.assertEqual(response.status_code, 200)
+
+	def test_fetch_profile(self):
+		profile = fetch_profile(constants.REAL_TEST_MID)
+		self.assertEqual("candy", profile["displayName"])
+
+

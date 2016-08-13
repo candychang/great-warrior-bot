@@ -6,19 +6,22 @@ import requests
 from django.http import HttpResponse
 from django.conf import settings
 from line_bot import constants
-
-"""
-Validate LINE signature on HTTP requests
-Args:
-request_body: Body of HTTP request
-signature: Request header 'X-LINE-ChannelSignature'
-secret: Secret used to create digest from request_body
-Returns:
-bool: True if valid, false otherwise
-"""
+from PIL import Image
+from io import StringIO
 
 
 def validate_signature(request_body, signature, secret):
+    """
+    Validate LINE signature on HTTP requests
+
+    Args:
+    request_body: Body of HTTP request
+    signature: Request header 'X-LINE-ChannelSignature'
+    secret: Secret used to create digest from request_body
+
+    Returns:
+    True if valid, False otherwise
+    """
     if (request_body and signature and secret):
         secret = secret.encode("utf-8")
         sig = signature.encode("utf-8")
@@ -33,10 +36,12 @@ def validate_signature(request_body, signature, secret):
 
 """
 Send message in reply to user
+
 Args:
 message_body: Text to send to user
 recipient: User who will receive the message
 headers: Http headers
+
 Returns:
 r: the response object
 """
@@ -59,51 +64,121 @@ def send_message(message_body, recipient):
     return r
 
 
-"""
-Parse LINE event and returns relevant info
 
-Args:
-event: Dictionary of data for one LINE event
-
-Returns:
-Event object - either messageEvent or operationEvent,
-               depending on the event type
-
-"""
 
 def parse_event(event):
+    """
+    Parse a LINE event and return relevant Event object
+
+    Args:
+    event: Dictionary of data for one LINE event
+
+    Returns:
+    Event object: either MessageEvent or OperationEvent,
+                   depending on the event type
+
+    """
     if event["eventType"] == constants.MESSAGE_EVENT:
         return MessageEvent(event["content"])
     elif event["eventType"] == constants.OPERATION_EVENT:
         return OperationEvent(event["content"])
 
+def fetch_image(message_id):
+    """
+    Fetches the binary image data from message, converts it to image
 
+    Args:
+    message_id: The LINE ID of the message
 
-def fetch_media(message_id):
-    pass
+    Returns:
+    content: the image
+    """
+    content = None
+    url = "https://trialbot-api.line.me/v1/bot/message/" + str(message_id) + "/content"
+    headers = {'Content-Type': "application/json",
+                'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
+                'X-Line-ChannelSecret': settings.LINE_SECRET,
+                'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
+
+    r = requests.get(url, headers=headers)
+    if r.status_code == 200:
+        content = Image.open(StringIO(r.content))
+
+    return content
+
+def fetch_profile(mid):
+    """
+    Fetches the profile for a LINE user
+
+    Args:
+    mid: The LINE member ID of a user
+
+    Returns:
+    content: A dictionary with profile information, following LINE API data model
+             {"statusMessage": "<Status Message>",
+              "pictureUrl": "<URL for image>",
+              "mid": "<User ID>",
+              "displayName": "<Display Name>" }
+    """
+    profile = None
+    url = "https://trialbot-api.line.me/v1/profiles?mids=" + str(mid)
+    headers = {'Content-Type': "application/json",
+                'X-Line-ChannelID': settings.LINE_CHANNEL_ID,
+                'X-Line-ChannelSecret': settings.LINE_SECRET,
+                'X-Line-Trusted-User-With-ACL': settings.LINE_MID }
+
+    r = requests.get(url, headers=headers)
+    if r.status_code == 200:
+        content = r.json()
+        profile = content["contacts"][0]
+
+    return profile
+
 
 
 class MessageEvent(object):
+    """
+    Class representing a LINE message object. Takes in a LINE message's
+    content data as a dictionary, and saves relevant info as attributes
+
+    Attributes:
+    message_id: ID of the message. Used for LINE API requests
+    sender: LINE member ID of the message sender. Use this to specify who to reply to
+    content_type: Type of message (text, image, sticker supported as of now)
+    content: a Content object containing relevant information
+    """
+
     def __init__(self, content_data):
         self.message_id = content_data["id"]
         self.sender = content_data["from"]
         self.content_type = content_data["contentType"]
-        self.content = self.get_content(content_data)
+        self.content = self.retrieve_content(content_data)
 
-    def get_content(self, content_data):
-        content_type = content_data['contentType']
+    def retrieve_content(self, content_data):
+        """
+        Creates Content object based on a message event's content type
+
+        Args: 
+        content_data: dictionary of content data
+
+        Returns:
+        Content object or None: Currently handles text, image and sticker types.
+        If the message contains unsupported content type, returns None
+        """
+        content_type = content_data["contentType"]
         if content_type == constants.TEXT:
-            return TextContent(content_data['text'])
+            return content_data["text"]
         elif content_type == constants.IMAGE:
-            return fetch_media(self.message_id)
+            return fetch_image(self.message_id)
         elif content_type == constants.STICKER:
-            return StickerContent(content_data['contentMetadata'])
+            return content_data["contentMetadata"]
         else:
             return None
 
 class TextContent(object):
     def __init__(self, content_text):
-        text = content_text
+        pass
+
 
 class ImageContent(object):
     def __init__(self, content_metadata):
@@ -115,5 +190,16 @@ class StickerContent(object):
 
 
 class OperationEvent(object):
+    """
+    Class representing a LINE operation object. Takes in a LINE operation's
+    content data as a dictionary, and saves relevant info as attributes
+
+    Attributes:
+    message_id: ID of the message. Used for LINE API requests
+    op_type: Type of message (text, image, sticker supported as of now)
+    mid: the LINE member ID of acting user
+    """
     def __init__(self, content_data):
-        pass
+        self.revision = content_data["revision"]
+        self.op_type = content_data["opType"]
+        self.mid = content_data["params"][0]
