@@ -7,6 +7,7 @@ def step_impl(context):
 	context.browser.fill('url', 'amazon.com')
 	context.browser.fill('size', '7')
 	context.browser.fill('itemcolor', 'blue')
+	context.browser.fill('cost', '40')
 	context.browser.find_by_css('form input[type=submit]').first.click()
 	
 @then(u'I am redirected to confirmation page')

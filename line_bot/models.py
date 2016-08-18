@@ -13,16 +13,19 @@ class Request(models.Model):
 	url = models.TextField(default='')
 	size = models.TextField(default='')
 	itemcolor = models.TextField(default='')
+	cost = models.TextField(default='')
+
 
 class Message(models.Model):
     content = models.TextField(default="")
     sender = models.TextField(default="")
+
 	
 class RequestForm(ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['itemrequest', 'url', 'size', 'itemcolor',]
+		fields = ['itemrequest', 'url', 'size', 'itemcolor', 'cost',]
 		widgets = {
 			'itemrequest' : TextInput(attrs={
 				'placeholder': 'Item',
@@ -40,9 +43,21 @@ class RequestForm(ModelForm):
 				'placeholder': 'Color',
 				'class': 'form-control input-lg',
 			}),
+			'cost' : TextInput(attrs={
+				'placeholder': 'Cost',
+				'class': 'form-control input-lg',
+			}),
+
 		}
 
 		error_messages = {
 			'itemrequest': {'required': EMPTY_ITEM_ERROR},
 			'url': {'required': EMPTY_ITEM_ERROR}
 		}
+
+
+class Status(models.Model):
+	ordered = models.TextField(default='')
+	issue = models.TextField(default='')
+	newOrder = models.TextField(default='')
+
