@@ -31,7 +31,7 @@ def callback(request):
                 if m.content == "test":
                     to_send = "HI! This is LineBot. The test succeeded!"
                 elif re.match(r'[Hh][Ii]|[Hh][Ee][Ll][Ll][Oo]|[Hh][Ee][Yy]|[Yy][Oo]', m.content):
-                    to_send = "Hello there, I'm LineBot.\n" + "Want to order something? Type 'order'"{}
+                    to_send = "Hello there, I'm LineBot.\n" + "Want to order something? Type 'order'"
                 elif re.match(r'[Oo][Rr][Dd][Ee][Rr]', m.content):
                     to_send = "Follow this link to make your order!" + " https://bot-staging.herokuapp.com/request/new"
                 else:
