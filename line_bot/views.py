@@ -10,7 +10,7 @@ import re
 
 # Create your views here.
 def home_page(request):
-	return render(request, 'home.html')
+    return render(request, 'home.html')
 
 @csrf_exempt
 def callback(request):
@@ -51,26 +51,28 @@ def callback(request):
         else:
             return render(request, 'callback.html', {'sig': "get"})
 
-def form_page(request):	
-	form = RequestForm()
-	return render(request, 'form.html', {'form': form})
+def form_page(request): 
+    form = RequestForm()
+    return render(request, 'form.html', {'form': form})
+
 def confirm_page(request):
-	if request.method == 'POST':
-		form = RequestForm(request.POST)
-		if form.is_valid():
-			new_form = form.save()
-			return render(request, 'confirm.html', {'order' : new_form})
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+        # if form.is_valid():
+        new_form = form.save()
+        return render(request, 'confirm.html', {'order' : new_form})
+
 def orders_page(request, user_id):
-	if request.method == 'GET':
-		user = UserModel.objects.get(id=user_id)
-		order = user.request_set.all()
-	return render(request, 'orders.html', {'order' : order} )
+    if request.method == 'GET':
+        user = UserModel.objects.get(id=user_id)
+        order = user.request_set.all()
+    return render(request, 'orders.html', {'order' : order} )
 
 
 def admin_orders_page(request):
-	if request.method == 'GET':
-		user = UserModel.objects.all()
-	return render(request, 'adminorders.html', {'user' : user} ) 
+    if request.method == 'GET':
+        user = UserModel.objects.all()
+    return render(request, 'adminorders.html', {'user' : user} ) 
 
 def simulate_bot(request):
     if request.method == 'POST':
