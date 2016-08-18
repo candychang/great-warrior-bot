@@ -6,6 +6,7 @@ from django.conf import settings
 import json
 import requests
 from line_bot.models import *
+import re
 
 # Create your views here.
 def home_page(request):
@@ -29,8 +30,14 @@ def callback(request):
                 m.save()
                 if m.content == "test":
                     to_send = "HI! This is LineBot. The test succeeded!"
-                    sending_user = m.sender
-                    r = line_api.send_message(to_send, sending_user)
+                elif re.match(r'[Hh][Ii]|[Hh][Ee][Ll][Ll][Oo]|[Hh][Ee][Yy]|[Yy][Oo]', m.content):
+                    to_send = "Hello there, I'm LineBot.\n" + "Want to order something? Type 'order'"{}
+                elif re.match(r'[Oo][Rr][Dd][Ee][Rr]', m.content):
+                    to_send = "Follow this link to make your order!" + " https://bot-staging.herokuapp.com/request/new"
+                else:
+                    to_send = "I can repeat what you say: " + sent_text + "\nMore functionality coming soon!"
+                sending_user = m.sender
+                r = line_api.send_message(to_send, sending_user)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
