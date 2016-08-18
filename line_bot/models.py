@@ -8,7 +8,7 @@ class UserModel(models.Model):
 	line_id = models.TextField()
 
 class Request(models.Model):
-	user = models.ForeignKey(UserModel, default = 1 )
+	# user = models.ForeignKey(UserModel, default = 1 )
 	itemrequest = models.TextField(default='')
 	url = models.TextField(default='')
 	size = models.TextField(default='')
