@@ -29,23 +29,23 @@ class RequestForm(ModelForm):
 		widgets = {
 			'itemrequest' : TextInput(attrs={
 				'placeholder': 'Item',
-				'class': 'form-control input-lg',
+				'class': 'form-control',
 			}),
 			'url' : TextInput(attrs={
 				'placeholder': 'URL',
-				'class': 'form-control input-lg',
+				'class': 'form-control',
 			}),
 			'size' : TextInput(attrs={
 				'placeholder': 'Size', 
-				'class': 'form-control input-lg',
+				'class': 'form-control',
 			}),
 			'itemcolor' : TextInput(attrs={
 				'placeholder': 'Color',
-				'class': 'form-control input-lg',
+				'class': 'form-control',
 			}),
 			'cost' : TextInput(attrs={
 				'placeholder': 'Cost',
-				'class': 'form-control input-lg',
+				'class': 'form-control',
 			}),
 
 		}

@@ -14,7 +14,12 @@
 </html> -->
 
 <html>
-	<form method="POST" action="/request/confirm">
+<head>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+	<div class="container">
+	<form method="POST" action="/request/confirm" class="form-horizontal">
 		{{form.as_p}}
 		{%csrf_token %}
 		{% if error %}
@@ -22,5 +27,5 @@
 		{% endif %}
 		<input type="submit" value="Submit">
 	</form>
-		
+	</div>
 </html>
