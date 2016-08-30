@@ -14,7 +14,7 @@ class Request(models.Model):
 	url = models.TextField(default='')
 	details = models.TextField(default='')
 	quantity = models.IntegerField(choices= [(x, x) for x in range(1, 11)])
-	cost_limit = models.TextField(default='')
+	budget = models.TextField(default='')
 
 
 class Message(models.Model):
@@ -25,7 +25,7 @@ class RequestForm(ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['item', 'url', 'details', 'quantity', 'cost_limit',]
+		fields = ['item', 'url', 'details', 'quantity', 'budget',]
 		widgets = {
 			'item' : TextInput(attrs={
 				'placeholder': 'Item',
@@ -42,8 +42,8 @@ class RequestForm(ModelForm):
 			'quantity' : Select(attrs={
 				'class': 'form-control',
 			}),
-			'cost_limit' : TextInput(attrs={
-				'placeholder': 'Desired cost limit',
+			'budget' : TextInput(attrs={
+				'placeholder': 'Item budget',
 				'class': 'form-control',
 			}),
 

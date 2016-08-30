@@ -40,7 +40,7 @@ class RequestFormTest(TestCase):
 						"url":  'A new url',
 						"details": 'Details will go here in a textarea',
 						"quantity": 2,
-						"cost_limit": '$10',}
+						"budget": '$10',}
 
 		response = confirm_page(request)
 		content = response.content.decode()
@@ -51,7 +51,7 @@ class RequestFormTest(TestCase):
 		self.assertEqual(new_item.url, 'A new url')
 		self.assertEqual(new_item.details, 'Details will go here in a textarea')
 		self.assertEqual(new_item.quantity, 2)
-		self.assertEqual(new_item.cost_limit, '$10')
+		self.assertEqual(new_item.budget, '$10')
 
 class AdminOrderTest(TestCase):
 	def test_template(self):

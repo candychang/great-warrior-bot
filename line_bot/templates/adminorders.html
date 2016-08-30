@@ -6,14 +6,7 @@
 		<ul>
 		{% for order in person.request_set.all %}
 			<li>
-			{{order.itemrequest}}
-			</br>
-			{{order.url}}
-			</br>
-			{{order.size}}
-			</br>
-			{{order.itemcolor}}
-			</br>
+			{{order.item}}
 			</li>
 			{% endfor %}
 		</ul>
