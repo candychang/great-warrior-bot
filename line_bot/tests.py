@@ -10,19 +10,20 @@ from unittest.mock import Mock, patch, call
 from unittest import skipIf
 
 
-EMPTY_ITEM_ERROR = "You can't have an empty list item"
+EMPTY_ITEM_ERROR = "You can't submit an order without specifying your item"
+EMPTY_URL_ERROR = "You can't submit an order without a link to the item"
 class RequestFormTest(TestCase):
 
 	def test_form_input_placeholder_css(self):
 		form = RequestForm()
 		self.assertIn('placeholder="Item"', form.as_p())
-		self.assertIn('class="form-control input-lg"', form.as_p())
+		self.assertIn('class="form-control"', form.as_p())
 
 	def test_form_validation(self):
-		form = RequestForm(data={'itemrequest': ''})
+		form = RequestForm(data={'item': ''})
 		self.assertFalse(form.is_valid())
 		self.assertEqual(
-			form.errors['itemrequest'], [EMPTY_ITEM_ERROR])
+			form.errors['item'], [EMPTY_ITEM_ERROR])
 
 	def test_form_page_renders_home_template(self):
 		response = self.client.get('/request/new')
@@ -35,22 +36,22 @@ class RequestFormTest(TestCase):
 	def test_from_is_saved(self):
 		request = HttpRequest()
 		request.method = 'POST'
-		request.POST = {"itemrequest": 'A new item',
+		request.POST = {"item": 'A new item',
 						"url":  'A new url',
-						"size": 'Item size',
-						"itemcolor": 'Item color',
-						"cost": 'Cost',}
+						"details": 'Details will go here in a textarea',
+						"quantity": 2,
+						"cost_limit": '$10',}
 
 		response = confirm_page(request)
 		content = response.content.decode()
 		
 		self.assertEqual(Request.objects.count(), 1)
 		new_item = Request.objects.first()
-		self.assertEqual(new_item.itemrequest, 'A new item')
+		self.assertEqual(new_item.item, 'A new item')
 		self.assertEqual(new_item.url, 'A new url')
-		self.assertEqual(new_item.size, 'Item size')
-		self.assertEqual(new_item.itemcolor, 'Item color')
-		self.assertEqual(new_item.cost, 'Cost')
+		self.assertEqual(new_item.details, 'Details will go here in a textarea')
+		self.assertEqual(new_item.quantity, 2)
+		self.assertEqual(new_item.cost_limit, '$10')
 
 class AdminOrderTest(TestCase):
 	def test_template(self):

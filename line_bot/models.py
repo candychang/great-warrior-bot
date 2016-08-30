@@ -1,33 +1,33 @@
 from django.db import models
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, Textarea, Select
 
-EMPTY_ITEM_ERROR = "You can't have an empty list item"
+EMPTY_ITEM_ERROR = "You can't submit an order without specifying your item"
+EMPTY_URL_ERROR = "You can't submit an order without a link to the item"
 # Create your models here.
 class UserModel(models.Model):
 	username = models.TextField()
 	line_id = models.TextField()
 
 class Request(models.Model):
-	# user = models.ForeignKey(UserModel, default = 1 )
-	itemrequest = models.TextField(default='')
+	user = models.ForeignKey(UserModel, default = 1 )
+	item = models.TextField(default='')
 	url = models.TextField(default='')
-	size = models.TextField(default='')
-	itemcolor = models.TextField(default='')
-	cost = models.TextField(default='')
+	details = models.TextField(default='')
+	quantity = models.IntegerField(choices= [(x, x) for x in range(1, 11)])
+	cost_limit = models.TextField(default='')
 
 
 class Message(models.Model):
     content = models.TextField(default="")
     sender = models.TextField(default="")
 
-	
 class RequestForm(ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['itemrequest', 'url', 'size', 'itemcolor', 'cost',]
+		fields = ['item', 'url', 'details', 'quantity', 'cost_limit',]
 		widgets = {
-			'itemrequest' : TextInput(attrs={
+			'item' : TextInput(attrs={
 				'placeholder': 'Item',
 				'class': 'form-control',
 			}),
@@ -35,24 +35,23 @@ class RequestForm(ModelForm):
 				'placeholder': 'URL',
 				'class': 'form-control',
 			}),
-			'size' : TextInput(attrs={
-				'placeholder': 'Size', 
+			'details' : Textarea(attrs={
+				'placeholder': 'Input details like color or size here', 
 				'class': 'form-control',
 			}),
-			'itemcolor' : TextInput(attrs={
-				'placeholder': 'Color',
+			'quantity' : Select(attrs={
 				'class': 'form-control',
 			}),
-			'cost' : TextInput(attrs={
-				'placeholder': 'Cost',
+			'cost_limit' : TextInput(attrs={
+				'placeholder': 'Desired cost limit',
 				'class': 'form-control',
 			}),
 
 		}
 
 		error_messages = {
-			'itemrequest': {'required': EMPTY_ITEM_ERROR},
-			'url': {'required': EMPTY_ITEM_ERROR}
+			'item': {'required': EMPTY_ITEM_ERROR},
+			'url': {'required': EMPTY_URL_ERROR}
 		}
 
 
