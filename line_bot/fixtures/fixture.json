@@ -1,0 +1,10 @@
+[
+    {
+        "model": "line_bot.user",
+        "pk": 1,
+        "fields": {
+          "username": "Celty Sturlson",
+          "line_id": "xxxxxxxxxxxxxxxxxxxxx"
+        }
+    }
+]

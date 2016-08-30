@@ -4,12 +4,12 @@ from django.forms import ModelForm, TextInput, Textarea, Select
 EMPTY_ITEM_ERROR = "You can't submit an order without specifying your item"
 EMPTY_URL_ERROR = "You can't submit an order without a link to the item"
 # Create your models here.
-class UserModel(models.Model):
+class User(models.Model):
 	username = models.TextField()
 	line_id = models.TextField()
 
 class Request(models.Model):
-	user = models.ForeignKey(UserModel, default = 1 )
+	user = models.ForeignKey(User, default = 1 )
 	item = models.TextField(default='')
 	url = models.TextField(default='')
 	details = models.TextField(default='')

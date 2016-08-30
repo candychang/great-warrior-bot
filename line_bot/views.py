@@ -64,14 +64,14 @@ def confirm_page(request):
 
 def orders_page(request, user_id):
     if request.method == 'GET':
-        user = UserModel.objects.get(id=user_id)
+        user = User.objects.get(id=user_id)
         order = user.request_set.all()
     return render(request, 'orders.html', {'order' : order} )
 
 
 def admin_orders_page(request):
     if request.method == 'GET':
-        user = UserModel.objects.all()
+        user = User.objects.all()
     return render(request, 'adminorders.html', {'user' : user} ) 
 
 def simulate_bot(request):
